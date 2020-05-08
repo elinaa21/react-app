@@ -1,0 +1,25 @@
+.active-user {
+    height: 6%;
+    padding: 5%;
+    display: flex;
+    align-items: center;
+    border-bottom: rgba(255, 255, 255, 0.616) solid;
+}
+
+.active-user__img {
+    width: 10%;
+}
+
+.active-user-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 3%;
+    color: rgb(24, 0, 46);
+    font-size: large;
+    font-weight: 620;
+}
+
+.active-user-info__messages {
+    font-size: small;
+    font-weight: 300;
+}

@@ -1,0 +1,16 @@
+.background {
+    background: linear-gradient(237.26deg, #0AC4FF, #7922A3 80%);
+    position: absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+}
+
+.chat {
+    font-family: 'Gill Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    font-size: 100%;
+}
