@@ -1,6 +1,7 @@
 import React from 'react';
-import ContactIcon from '../../icons/contact-icon.png';
-import OnlineIcon from '../../icons/online-icon.png';
+
+import ContactIcon from '../../img/contact-icon.png';
+import OnlineIcon from '../../img/online-icon.png';
 
 import './Contact.scss';
 

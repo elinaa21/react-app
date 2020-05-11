@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ActiveUser from '../ActiveUser/ActiveUser.jsx';
 import MessagesField from '../MessagesField/MessagesField.jsx';
 import SendMessageForm from '../SendMessageForm/SendMessageForm.jsx';

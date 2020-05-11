@@ -1,0 +1,94 @@
+.login {
+    position: absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    background: {
+        image: url(../../img/bg.png);
+        repeat: no-repeat;
+        size: 100%;
+    }
+    text-align: center;
+
+    &-form {
+        color: white;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Gill Sans', sans-serif;
+
+        &__headline {
+            font: {
+                family: inherit;
+                size: 300%;
+                weight: 600;
+            }
+        }
+    }
+
+    &-button {
+        font: {
+            size: 200%;
+            family: inherit;
+            weight: 200;
+        }
+        padding: 0.5% 4%;
+        color: inherit;
+        background: linear-gradient(180deg, #6209EF -16.25%, #1919E0 116.25%);
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 40px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+}
+
+@mixin input {
+    font: {
+        family: inherit;
+        size: 120%;
+    }
+    outline: none;
+    width: 25%;
+    height: 4%;
+    margin-bottom: 2%;
+    padding-left: 7px;
+}
+
+.input {
+    &-username {
+        @include input;
+        
+    }
+    &-password {
+        @include input;
+    }
+}
+
+.no-account {
+    margin: 2%;
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login-sign-up {
+    font: {
+        size: 180%;
+        family: inherit;
+        weight: 200;
+    }
+    padding: 0.3% 3%;
+    color: inherit;
+    background: linear-gradient(180deg, #DF24EF 0%, #E13386 100%);;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}

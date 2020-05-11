@@ -4,8 +4,8 @@ import './SendMessageForm.scss';
 
 const SendMessageForm = () => (
     <div className ='message-form-container'>
-        <textarea className='message-form-container__text' placeholder="Ваше сообщение..." rows='3' />
-        <span className ='message-form-container__button'>ОТПРАВИТЬ</span>
+        <textarea className='message-form-container__text' placeholder="Type your message" rows='3' />
+        <span className ='message-form-container__button'>SEND</span>
     </div>
 );
 
