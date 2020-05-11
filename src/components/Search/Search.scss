@@ -1,0 +1,38 @@
+.search {
+    position: fixed;
+    margin-top: 2%;
+    height: 5%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 20%;
+
+    &__input {
+        font-family: 'Gill Sans', sans-serif;
+        width: 70%;
+        outline: none;
+        border-radius: 5px 0 0 5px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border: none;
+        font-size: 100%;
+        color: rgba(255, 255, 255, 0.829);
+        padding-left: 8%;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.829);
+        }
+    }
+
+    &__img {
+        width: 12%;
+        border-radius: 0 5px 5px 0;
+        filter: invert(1);
+        background: {
+            color: rgba(0, 0, 0, 0.3);
+            image: url('../../icons/search-icon.png');
+            position: center;
+            repeat: no-repeat;
+            size: 60%;
+        }
+    }
+}

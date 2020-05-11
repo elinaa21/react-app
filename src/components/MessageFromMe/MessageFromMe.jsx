@@ -1,6 +1,5 @@
 import React from 'react';
-
-import './MessageFromMe.css';
+import './MessageFromMe.scss';
 
 const MessageFromMe = (props) => (
     <div className = 'from-me'>

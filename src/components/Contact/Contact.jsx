@@ -1,7 +1,8 @@
 import React from 'react';
 import ContactIcon from '../../icons/contact-icon.png';
 import OnlineIcon from '../../icons/online-icon.png';
-import './Contact.css';
+
+import './Contact.scss';
 
 const Contact = (props) => (
     <div className = 'contact'>

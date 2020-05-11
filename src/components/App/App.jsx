@@ -1,7 +1,7 @@
 import React from 'react';
 import ChatField from '../ChatField/ChatField.jsx';
 import ContactsField from '../ContactsField/ContactsField.jsx';
-import './App.css';
+import './App.scss';
 
 const App = () => (
     <div className = 'background'>

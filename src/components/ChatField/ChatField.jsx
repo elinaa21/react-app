@@ -3,7 +3,7 @@ import ActiveUser from '../ActiveUser/ActiveUser.jsx';
 import MessagesField from '../MessagesField/MessagesField.jsx';
 import SendMessageForm from '../SendMessageForm/SendMessageForm.jsx';
 
-import './ChatField.css';
+import './ChatField.scss';
 
 const ChatField = () => (
     <div className = 'container-chat'>
