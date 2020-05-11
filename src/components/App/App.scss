@@ -14,3 +14,29 @@
     height: 100%;
     font-size: 100%;
 }
+
+.exit {
+    width: 7%;
+    height: 4%;
+    position: absolute;
+    top: 1%; 
+    right: 0.5%;
+    background: transparent;
+    font: {
+        family: 'Gill Sans', sans-serif;
+        weight: 500;
+        size: 110%;
+    }
+    border: rgba(255, 255, 255, 0.712) 1px solid;
+    color: rgba(255, 255, 255, 0.712);
+    cursor: pointer;
+    transition: .5s;
+    outline: none;
+
+    &:hover {
+        border-radius: 10px;
+        transition: .5s;
+        border: white 1px solid;
+        color: white;
+    }
+}

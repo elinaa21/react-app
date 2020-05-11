@@ -8,6 +8,7 @@ const App = () => (
         <div className = 'chat'>
         <ContactsField />
         <ChatField />
+        <button className='exit'>ВЫЙТИ</button>
         </div>
     </div>
 );
