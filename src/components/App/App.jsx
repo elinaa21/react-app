@@ -5,6 +5,7 @@ import ChatField from '../ChatField/ChatField.jsx';
 import ContactsField from '../ContactsField/ContactsField.jsx';
 import Login from '../Login/Login.jsx';
 import Register from '../Register/Register.jsx';
+import Loader from '../Loader/Loader.jsx';
 
 import './App.scss';
 
@@ -21,6 +22,7 @@ const App = () => (
         </Route>
         <Route path='/login' component={Login}/>
         <Route path='/register' component={Register}/>
+        <Route path='/loader' component={Loader}/>
     </BrowserRouter>
 );
 
