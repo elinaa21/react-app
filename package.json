@@ -39,6 +39,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "sass": "^1.26.5",
+    "react-router-dom": "^5.2.0",
     "url-loader": "^4.1.0"
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, BrowserRouter } from 'react-router-dom';
 
 import ChatField from '../ChatField/ChatField.jsx';
 import ContactsField from '../ContactsField/ContactsField.jsx';
@@ -8,15 +9,19 @@ import Register from '../Register/Register.jsx';
 import './App.scss';
 
 const App = () => (
-    // <div className = 'background'>
-    //     <div className = 'chat'>
-    //     <ContactsField />
-    //     <ChatField />
-    //     <button className='exit'>EXIT</button>
-    //     </div>
-    // </div>
-    // <Login />
-    <Register />
+    <BrowserRouter>
+        <Route exact path="/">
+            <div className = 'background'>
+                <div className = 'chat'>
+                    <ContactsField />
+                    <ChatField />
+                    <button className='exit'>EXIT</button>
+                </div>
+            </div>
+        </Route>
+        <Route path='/login' component={Login}/>
+        <Route path='/register' component={Register}/>
+    </BrowserRouter>
 );
 
 export default App;

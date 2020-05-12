@@ -9,7 +9,7 @@ const Login = () => (
             <h1 className='login-form__headline'>Log in</h1>
             <input type='text' placeholder='Username' className='input-username' />
                 <input type='text' placeholder='Password' className='input-password' />
-            <button className='login-button'>Login</button>
+            <button className='login-button'>Log in</button>
             <div className='no-account'>
                 <img src={Line} />
                 <span>Have not account?</span>
