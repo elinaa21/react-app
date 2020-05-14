@@ -2,7 +2,12 @@ import React from 'react';
 
 import './MessageFromThem.scss';
 
-const MessageFromThem = (props) => (
+interface IMessageProps {
+    name: string;
+    message: string;
+}
+
+const MessageFromThem = (props: IMessageProps) => (
     <div className = 'from-them'>
         <div>
             <span className = 'message-name'>{props.name}</span>

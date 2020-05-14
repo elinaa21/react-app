@@ -1,17 +1,19 @@
 import React from 'react';
 
-import ContactIcon from '../../img/contact-icon.png';
-import OnlineIcon from '../../img/online-icon.png';
-
 import './Contact.scss';
 
-const Contact = (props) => (
+interface ContactProps {
+    name: string;
+    status: string;
+}
+
+const Contact = (props: ContactProps) => (
     <div className = 'contact'>
-        <img src ={ContactIcon} className='contact__img'/>
+        <div className='contact__img'/>
         <div className='contact-info'>
             <span>{ props.name }</span>
             <div className='contact-status' >
-                <img src={OnlineIcon} className='contact-status__img' />
+                <div className='contact-status__img' />
                 <span>{ props.status }</span>
             </div>
         </div>

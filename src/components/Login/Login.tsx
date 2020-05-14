@@ -1,5 +1,4 @@
 import React from 'react';
-import Line from '../../img/line.png';
 
 import './Login.scss';
 
@@ -11,9 +10,9 @@ const Login = () => (
                 <input type='text' placeholder='Password' className='input-password' />
             <button className='login-button'>Log in</button>
             <div className='no-account'>
-                <img src={Line} />
+                <div className='line-image' />
                 <span>Have not account?</span>
-                <img src={Line} />
+                <div className='line-image' />
             </div>
             <button className='login-sign-up'>Sign up</button>
         </div>

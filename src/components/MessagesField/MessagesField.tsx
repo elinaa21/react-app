@@ -1,7 +1,7 @@
 import React from 'react';
 
-import MessageFromMe from '../MessageFromMe/MessageFromMe.jsx';
-import MessageFromThem from '../MessageFromThem/MessageFromThem.jsx';
+import MessageFromMe from '../MessageFromMe/MessageFromMe';
+import MessageFromThem from '../MessageFromThem/MessageFromThem';
 
 import './MessagesField.scss';
 
@@ -11,7 +11,7 @@ const MessagesField = () => (
         <MessageFromMe name='Элина' message ='это огромное сообщение сейчас я вот пишу такая вот да чтобы показать тебе как сильно я тебя обожаю а не для того чтобы тебе показать как выглядят большие сообщения понятно да все люблю тебя очень сладкий'/>
         <MessageFromThem name='Игорек Уголек' message ='елина не мешай а'/>
         <MessageFromThem name='Игорек Уголек' message ='я тебя все равно не оч люблю'/>
-        <MessageFromThem name='Игорек Уголек' message ='пока'/>
+        <MessageFromThem name='Игорек Уголек' message ='пока бесиш'/>
     </div>
 );
 

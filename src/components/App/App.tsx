@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, BrowserRouter } from 'react-router-dom';
 
-import ChatField from '../ChatField/ChatField.jsx';
-import ContactsField from '../ContactsField/ContactsField.jsx';
-import Login from '../Login/Login.jsx';
-import Register from '../Register/Register.jsx';
-import Loader from '../Loader/Loader.jsx';
+import ChatField from '../ChatField/ChatField';
+import ContactsField from '../ContactsField/ContactsField';
+import Login from '../Login/Login';
+import Register from '../Register/Register';
+import Loader from '../Loader/Loader';
 
 import './App.scss';
 

@@ -70,8 +70,9 @@
 }
 
 .no-account {
-    margin: 2%;
+    margin: 2% 0;
     width: 25%;
+    height: 2%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -91,4 +92,15 @@
     border: none;
     outline: none;
     cursor: pointer;
+}
+
+.line-image {
+    width: 25%;
+    height: 100%;
+    background: url(../../img/line.png);
+    background: {
+        size: 100%;
+        position: center;
+        repeat: no-repeat;
+    }
 }

@@ -2,7 +2,12 @@ import React from 'react';
 
 import './MessageFromMe.scss';
 
-const MessageFromMe = (props) => (
+interface IMessageProps {
+    name: string;
+    message: string;
+}
+
+const MessageFromMe = (props: IMessageProps) => (
     <div className = 'from-me'>
         <div>
             <span className = 'message-date'>21:21, Today </span>

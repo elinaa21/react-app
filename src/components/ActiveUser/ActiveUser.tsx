@@ -1,18 +1,20 @@
 import React from 'react';
 
-import ContactIcon from '../../img/contact-icon.png';
-import StarIcon from '../../img/star-icon.png';
-
 import './ActiveUser.scss';
 
-const ActiveUser = (props) => (
+interface ActiveUserProps {
+    name: string;
+    messages: number;
+}
+
+const ActiveUser = (props: ActiveUserProps) => (
     <div className ='active-user'>
-        <img src ={ContactIcon} className='active-user__img' />
+        <div className='active-user__img' />
         <div className='active-user-info'>
             <span>Chat with {props.name}</span>
             <span className ='active-user-info__messages'> already {props.messages} messages</span>
         </div>
-        <img src ={StarIcon} className='star-img' />
+        <div className='star-img' />
     </div>
 );
 
