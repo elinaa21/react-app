@@ -16,7 +16,10 @@ const App = () => (
                 <div className = 'chat'>
                     <ContactsField />
                     <ChatField />
-                    <button className='exit'>EXIT</button>
+                    <div className='side'>
+                        <button className='exit'>EXIT</button>
+                        <span className='side__name'>Elinaaa</span>
+                    </div>
                 </div>
             </div>
         </Route>
