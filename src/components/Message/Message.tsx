@@ -10,12 +10,12 @@ interface IMessageProps {
 }
 
 const Message = (props: IMessageProps) => (
-    <div className = {cn('message', '', {from: 'me'})} >
-        <div className = {cn('message', 'info', {from: 'me'})}>
-            <span className = {cn('message', 'date', {from: 'me'})}>21:21, Today </span>
-            <span className = {cn('message', 'name', {from: 'me'})}>{props.name}</span>
+    <div className = {cn('message', '', {from: props.from})} >
+        <div className = {cn('message', 'info', {from: props.from})}>
+            <span className = {cn('message', 'date')}>21:21, Today </span>
+            <span className = {cn('message', 'name')}>{props.name}</span>
         </div>
-        <div className = {cn('message', 'content', {from: 'me'})}>{props.message}</div>
+        <div className = {cn('message', 'content', {from: props.from})}>{props.message}</div>
     </div>
 );
 

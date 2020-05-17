@@ -1,4 +1,4 @@
-export const cn = (block: string, elem = '', mod: Record<string, string | boolean>) => {
+export const cn = (block: string, elem = '', mod?: Record<string, string | boolean>): string => {
     let result = block;
 
     if (elem.length) {
@@ -17,4 +17,3 @@ export const cn = (block: string, elem = '', mod: Record<string, string | boolea
 
     return result;
 }
-
