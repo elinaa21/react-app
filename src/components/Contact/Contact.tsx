@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../modules/cn';
 
 import './Contact.scss';
 
@@ -7,13 +8,13 @@ interface ContactProps {
     status: string;
 }
 
-const Contact = (props: ContactProps) => (
-    <div className = 'contact'>
-        <div className='contact__img'/>
-        <div className='contact-info'>
+const Contact: React.FC<ContactProps> = (props: ContactProps) => (
+    <div className = {cn('contact')}>
+        <div className = {cn('contact', 'img')}/>
+        <div className = {cn('contact-info')}>
             <span>{ props.name }</span>
-            <div className='contact-status' >
-                <div className='contact-status__img' />
+            <div className = {cn('contact-status')} >
+                <div className = {cn('contact-status', 'img')} />
                 <span>{ props.status }</span>
             </div>
         </div>

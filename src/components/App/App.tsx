@@ -6,19 +6,20 @@ import ContactsField from '../ContactsField/ContactsField';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Loader from '../Loader/Loader';
+import { cn } from '../../modules/cn';
 
 import './App.scss';
 
-const App = () => (
+const App: React.FC = () => (
     <BrowserRouter>
         <Route exact path="/">
-            <div className = 'background'>
-                <div className = 'chat'>
+            <div className = {cn('background')}>
+                <div className = {cn('chat')}>
                     <ContactsField />
                     <ChatField />
-                    <div className='side'>
-                        <button className='exit'>EXIT</button>
-                        <span className='side__name'>Elinaaa</span>
+                    <div className = {cn('side')}>
+                        <button className = {cn('exit')}>EXIT</button>
+                        <span className = {cn('side', 'name')}>Elinaaa</span>
                     </div>
                 </div>
             </div>

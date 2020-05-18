@@ -1,11 +1,13 @@
 import React from 'react';
 
+import { cn } from '../../modules/cn';
+
 import './Loader.scss';
 
-const Loader = () => (
-    <div className='loader-bg'>
+const Loader: React.FC = () => (
+    <div className = {cn('loader')}>
         <span>Loading...</span>
-        <div className='loader-spinner'></div>
+        <div className = {cn('loader', 'spinner')}></div>
     </div>
 );
 

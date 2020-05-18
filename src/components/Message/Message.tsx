@@ -9,7 +9,7 @@ interface IMessageProps {
     from?: 'me' | 'them';
 }
 
-const Message = (props: IMessageProps) => (
+const Message: React.FC<IMessageProps> = (props: IMessageProps) => (
     <div className = {cn('message', '', {from: props.from})} >
         <div className = {cn('message', 'info', {from: props.from})}>
             <span className = {cn('message', 'date')}>21:21, Today </span>

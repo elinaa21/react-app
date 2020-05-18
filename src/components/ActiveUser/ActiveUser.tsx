@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../modules/cn';
 
 import './ActiveUser.scss';
 
@@ -7,14 +8,14 @@ interface ActiveUserProps {
     messages: number;
 }
 
-const ActiveUser = (props: ActiveUserProps) => (
-    <div className ='active-user'>
-        <div className='active-user__img' />
-        <div className='active-user-info'>
+const ActiveUser: React.FC<ActiveUserProps> = (props: ActiveUserProps) => (
+    <div className = {cn('active-user')}>
+        <div className = {cn('active-user', 'img')} />
+        <div className = {cn('active-user', 'info')}>
             <span>Chat with {props.name}</span>
-            <span className ='active-user-info__messages'> already {props.messages} messages</span>
+            <span className = {cn('active-user', 'messages')}> already {props.messages} messages</span>
         </div>
-        <div className='star-img' />
+        <div className = {cn('star-img')} />
     </div>
 );
 
