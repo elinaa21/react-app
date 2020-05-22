@@ -8,7 +8,8 @@ const Register: React.FC = () => (
         <div className = {cn('register-form')}>
             <h1 className = {cn('register-form', 'headline')}>Sign up</h1>
             <input type='text' placeholder='Username' className = {cn('input-username')} />
-                <input type='text' placeholder='Password' className = {cn('input-password')} />
+            <input type='password' placeholder='Create password' className = {cn('input-password')} />
+            <input type='password' placeholder='Confirm password' className = {cn('input-password')} />
             <button className = {cn('register', 'button')}>Sign up</button>
             <div className = {cn('has-account')}>
                 <div className = {cn('line-image')} />
