@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "server": "mongod && node server/server.js"
   },
   "keywords": [],
   "author": "",
@@ -45,14 +46,15 @@
   "dependencies": {
     "@material-ui/core": "^4.9.13",
     "@material-ui/icons": "^4.9.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "file-loader": "^6.0.0",
+    "mongodb": "^3.5.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "sass": "^1.26.5",
     "react-router-dom": "^5.2.0",
-    "url-loader": "^4.1.0",
-    "cors": "^2.8.5",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "sass": "^1.26.5",
+    "url-loader": "^4.1.0"
   }
 }
