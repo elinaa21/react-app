@@ -10,16 +10,24 @@ import { cn } from '../../modules/cn';
 
 import './App.scss';
 
+const classNames = {
+    background: cn('background'),
+    chat: cn('chat'),
+    side: cn('side'),
+    buttonExit: cn('exit'),
+    sideName: cn('side', 'name'),
+}
+
 const App: React.FC = () => (
     <BrowserRouter>
         <Route exact path="/">
-            <div className = {cn('background')}>
-                <div className = {cn('chat')}>
+            <div className={classNames.background}>
+                <div className={classNames.chat}>
                     <ContactsField />
                     <ChatField />
-                    <div className = {cn('side')}>
-                        <button className = {cn('exit')}>EXIT</button>
-                        <span className = {cn('side', 'name')}>Elinaaa</span>
+                    <div className={classNames.side}>
+                        <button className={classNames.buttonExit}>EXIT</button>
+                        <span className={classNames.sideName}>Elinaaa</span>
                     </div>
                 </div>
             </div>

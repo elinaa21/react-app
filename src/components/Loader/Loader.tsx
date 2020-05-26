@@ -4,10 +4,15 @@ import { cn } from '../../modules/cn';
 
 import './Loader.scss';
 
+const classNames = {
+    loader:cn('loader'),
+    loaderSpinner: cn('loader', 'spinner'),
+}
+
 const Loader: React.FC = () => (
-    <div className = {cn('loader')}>
+    <div className={classNames.loader}>
         <span>Loading...</span>
-        <div className = {cn('loader', 'spinner')}></div>
+        <div className={classNames.loaderSpinner}></div>
     </div>
 );
 

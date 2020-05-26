@@ -34,12 +34,18 @@ app.post('/api/login', (req, res) => {
     } else {
         const { login, password } = req.body;
         mongoClient.connect(mongoURL, (err, db) => {
-            if (err) throw err;
+            if (err) {
+                res.status(RESPONSE_CODES.SERVER_ERROR);
+                res.json({ message: 'internal error' });
+            }
 
             const database = db.db('test');
             const sessionId = sha1(`${login}-${password}`);
             database.collection('sessions').findOne({ login, sessionId }, (err, result) => {
-                if (err) throw err;
+                if (err) {
+                    res.status(RESPONSE_CODES.SERVER_ERROR);
+                    res.json({ message: 'internal error' });
+                }
 
                 if (result) {
                     res.set('Set-Cookie', `sessionId=${sessionId}`);
@@ -51,12 +57,6 @@ app.post('/api/login', (req, res) => {
                 }
             });
         });
-        // открывоем базу данных 
-        // считаем хеш от логин-пароль с помощью sha1
-        // ищим в базе данных пользователя с токим лагинам и sessionId
-        // res.status ok или forbidden
-        // esli ok - res.set('Set-Cookie', `sessionId=${result.sessionId}`)
-        // esli ne ok - res.json({ message: 'wrong login or password'})
     }
 });
 
@@ -69,11 +69,17 @@ app.post('/api/register', (req, res) => {
     } else {
         const { login, password } = req.body;
         mongoClient.connect(mongoURL, (err, db) => {
-            if (err) throw err;
+            if (err) {
+                res.status(RESPONSE_CODES.SERVER_ERROR);
+                res.json({ message: 'internal error' });
+            }
 
             const database = db.db('test');
             database.collection('sessions').findOne({ login }, (err, result) => {
-                if (err) throw err;
+                if (err) {
+                    res.status(RESPONSE_CODES.SERVER_ERROR);
+                    res.json({ message: 'internal error' });
+                }
 
                 if (result) {
                     res.status(RESPONSE_CODES.CONFLICT);
@@ -93,11 +99,6 @@ app.post('/api/register', (req, res) => {
                 });
             });
         });
-        // open БД
-        // файнд пользователя с таким логином 
-        // если нашли - статус ответа конфликт и res.json - user already exists 
-        // если не нашли добавляем в БД объект с логином и sessionId, ставим статус ОК и выставляем куки 
-        //
     }
 });
 
@@ -110,11 +111,17 @@ app.get('/api/check', (req, res) => {
         sessionId = cookie.split('=')[1];
     }
     mongoClient.connect(mongoURL, (err, db) => {
-        if (err) throw err;
+        if (err) {
+            res.status(RESPONSE_CODES.SERVER_ERROR);
+            res.json({ message: 'internal error' });
+        }
 
         const database = db.db('test');
         database.collection('sessions').findOne({ sessionId }, (err, result) => {
-            if (err) throw err;
+            if (err) {
+                res.status(RESPONSE_CODES.SERVER_ERROR);
+                res.json({ message: 'internal error' });
+            }
 
             if (result && result.login) {
                 res.status(RESPONSE_CODES.OK);

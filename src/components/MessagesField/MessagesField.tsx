@@ -5,8 +5,12 @@ import { cn } from '../../modules/cn';
 
 import './MessagesField.scss';
 
+const classNames = {
+    containerMessages: cn('container-messages'),
+};
+
 const MessagesField: React.FC = () => (
-    <div className = {cn('container-messages')}>
+    <div className={classNames.containerMessages}>
         <Message name='Elinaaa' message='Игорек приф, смотре чаго я сделяль' from='me' />
         <Message name='Elinaaa' message ='я очень сильно люблю Игоря' from='me' />
         <Message name='Igorrrr' message ='я не очень сильно люблю елину' from='them' />

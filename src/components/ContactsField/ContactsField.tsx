@@ -6,8 +6,12 @@ import { cn } from '../../modules/cn';
 
 import './ContactsField.scss';
 
+const classNames = {
+    containerContacts: cn('container-contacts'),
+}
+
 const ContactsField: React.FC = () => (
-    <div className = {cn('container-contacts')}>
+    <div className={classNames.containerContacts}>
         <Search />
         <div style={{ height: '10%' }}></div>
         <Contact name='Ellie' status ='online' />

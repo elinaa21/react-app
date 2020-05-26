@@ -7,8 +7,12 @@ import { cn } from '../../modules/cn';
 
 import './ChatField.scss';
 
+const classNames = {
+    containerChat: cn('container-chat'),
+}
+
 const ChatField: React.FC = () => (
-    <div className = {cn('container-chat')}>
+    <div className={classNames.containerChat}>
         <ActiveUser name ='Igorrrrr' messages = {105000} />
         <MessagesField />
         <SendMessageForm />
