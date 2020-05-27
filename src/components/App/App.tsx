@@ -20,7 +20,7 @@ const classNames = {
 
 const App: React.FC = () => (
     <BrowserRouter>
-        <Route exact path="/">
+        <Route path="/im">
             <div className={classNames.background}>
                 <div className={classNames.chat}>
                     <ContactsField />
