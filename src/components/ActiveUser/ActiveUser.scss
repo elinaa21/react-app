@@ -8,10 +8,17 @@
     border-bottom: rgba(255, 255, 255, 0.616) solid;
 
     &__img {
+        background: url(../../img/contact-icon.png);
+        background: {
+            size: 100%;
+            position: center;
+            repeat: no-repeat;
+        }
         width: 10%;
+        height: 120%;
     }
 
-    &-info {
+    &__info {
         margin-left: 3%;
         display: flex;
         flex-direction: column;
@@ -19,18 +26,26 @@
         font-size: large;
         font-weight: 620;
         flex-grow: 2;
+    }
 
-        &__messages {
-            font-size: small;
-            font-weight: 300;
-        }
-        
+
+
+    &__messages {
+        font-size: small;
+        font-weight: 300;
     }
 
 }
 
 .star-img {
+    background: url(../../img/star-icon.png);
     cursor: pointer;
     width: 6%;
+    height: 100%;
     filter: grayscale(90%);
+    background: {
+        size: 100%;
+        position: center;
+        repeat: no-repeat;
+    }
 }

@@ -3,11 +3,17 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.jsx",
+  entry: {
+    app: path.join(__dirname, 'src', 'index.tsx')
+  },
   output: {
-    path: path.join(__dirname, "/dist"),
+    path: path.resolve(__dirname, "/dist"),
     filename: "index-bundle.js",
     publicPath: '/'
+  },
+  target: 'web',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
   },
   module: {
     rules: [
@@ -30,6 +36,11 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.ts?$|\.tsx$/,
+        use: 'ts-loader',
+        exclude: '/node_modules/'
       },
       {
         test: /\.scss$/,

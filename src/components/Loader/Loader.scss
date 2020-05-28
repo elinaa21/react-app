@@ -5,23 +5,21 @@
   }
 
   .loader {
-    &-bg {
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        background: linear-gradient(237.26deg, #0AC4FF, #7922A3 80%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Gill Sans', sans-serif;
-        color: rgba(255, 255, 255, 0.884);
-    }
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(237.26deg, #0AC4FF, #7922A3 80%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Gill Sans', sans-serif;
+    color: rgba(255, 255, 255, 0.884);
 
-    &-spinner {
+    &__spinner {
         margin-left: 1%;
         width: 20px;
         height: 20px;
