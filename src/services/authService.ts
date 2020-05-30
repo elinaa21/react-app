@@ -39,9 +39,9 @@ class AuthService {
         return this.sendRequest('/register', 'POST', { login, password });
     }
 
-    public getAuthData(): Promise<IAuthData> {
+    public getAuthData(): Promise<IAuthData> | IAuthData {
         if (this.checkAuthFetch) return this.checkAuthFetch;
-        return new Promise((resolve) => resolve({ isAuth: this.isAuth, userName: this.userName }));
+        return { isAuth: this.isAuth, userName: this.userName };
     }
 
     private clearData(): void {
@@ -56,8 +56,8 @@ class AuthService {
 
     private checkAuth(): void {
         if (localStorage) {
-            this.isAuth = localStorage.isAuth || false;
-            this.userName = localStorage.userName || '';
+            this.isAuth = localStorage.getItem('isAuth') === 'true';
+            this.userName = localStorage.getItem('userName') || '';
         }
 
         if (!this.isAuth || !this.userName) {
@@ -72,10 +72,15 @@ class AuthService {
                 } else {
                     this.isAuth = true;
                     this.userName = response.userName;
+                    
+                    if (localStorage) {
+                        localStorage.setItem('isAuth', 'true');
+                        localStorage.setItem('userName', this.userName);
+                    }
                 }
-                return { isAuth: this.isAuth, userName: this.userName }
+                return { isAuth: this.isAuth, userName: this.userName };
             });
-        }
+        } 
     }
 }
 

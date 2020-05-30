@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App/App';
-import authService from './services/authService';
+import AuthService from './services/authService';
+AuthService.login('user2', '1234');
 
-authService.getAuthData();
-authService.login('elina', 'igormenyanelubit');
 ReactDOM.render(<App />, document.getElementById('root'));
