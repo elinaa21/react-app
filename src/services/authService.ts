@@ -18,10 +18,11 @@ class AuthService {
         const options: RequestInit = {
             method: method,
             mode: 'cors',
-            credentials: 'same-origin',
-            headers: { host: 'localhost', 'Content-Type': 'application/json; charset=utf-8' },
+            credentials: 'include',
+            headers: { Host: 'localhost' },
         }
         if (method !== 'GET' && body) {
+            options.headers = { ...options.headers, 'Content-Type': 'application/json; charset=utf-8' }
             options.body = JSON.stringify(body);
         }
         return fetch(url, options);

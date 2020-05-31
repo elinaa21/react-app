@@ -53,6 +53,8 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
+    disableHostCheck: true,
+    historyApiFallback: true,
   },
   plugins: [
     new ExtractTextPlugin('style.css'),

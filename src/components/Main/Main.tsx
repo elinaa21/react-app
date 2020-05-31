@@ -7,6 +7,8 @@ import Loader from '../Loader/Loader';
 import { cn } from '../../modules/cn';
 import authService from '../../services/authService';
 
+import './Main.scss';
+
 
 const classNames = {
     background: cn('background'),
