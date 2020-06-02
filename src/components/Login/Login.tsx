@@ -35,16 +35,15 @@ class Login extends React.Component<{}, ILoginSate> {
         authService.login(login, password)
             .then((response: Response) => {
                 if (response.ok) {
-                    this.setState({isSuccess: true});
+                    this.setState({ isSuccess: true });
                 } else {
-                    this.setState({isSuccess: false});
+                    this.setState({ isSuccess: false });
                 }
             });
-
     }
 
     private handleSignUp = (): void => {
-        this.setState({redirectToSignUp: true});
+        this.setState({ redirectToSignUp: true });
     }
 
     render(): JSX.Element {
@@ -62,7 +61,7 @@ class Login extends React.Component<{}, ILoginSate> {
                             id='login__username' 
                         />
                             <input 
-                                type='text' 
+                                type='password' 
                                 placeholder='Password' 
                                 className={classNames.inputPassword} 
                                 id='login__password'
