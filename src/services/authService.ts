@@ -30,10 +30,10 @@ class AuthService {
 
     public login(login: string, password: string): Promise<Response|void> {
         return this.sendRequest('/login', 'POST', { login, password })
-            .then(response => {
-                console.log(response.status);
-                return response.json();
-            }).then(body => console.log(body));
+            .then((response) => {
+                console.log('login = ' + response.status);
+                return response;
+            }); 
     }
 
     public register(login: string, password: string): Promise<Response> {
