@@ -45,7 +45,7 @@ class AuthService {
         return { isAuth: this.isAuth, userName: this.userName };
     }
 
-    public clearData(): void {
+    private clearData(): void {
         if (localStorage) {
             delete localStorage.isAuth;
             delete localStorage.userName;
@@ -53,6 +53,14 @@ class AuthService {
 
         this.isAuth = false;
         this.userName = '';
+    }
+
+    public logOut(): Promise<void> {
+        return this.sendRequest('/login', 'DELETE')
+            .then((response) => {
+                this.clearData();
+                console.log(response.status);
+            });
     }
 
     private checkAuth(): void {

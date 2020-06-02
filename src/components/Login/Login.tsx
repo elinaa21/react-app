@@ -20,16 +20,16 @@ const classNames = {
 
 interface ILoginSate {
     isSuccess: boolean;
+    redirectToSignUp: boolean;
 }
 
 class Login extends React.Component<{}, ILoginSate> {
     constructor(props: {}) {
         super(props);
-        this.state = { isSuccess: false };
-        this.handleClick = this.handleClick.bind(this);
+        this.state = { isSuccess: false, redirectToSignUp: false };
     }
 
-    private handleClick(): void {
+    private handleLogin = (): void => {
         const login = (document.getElementById('login__username') as HTMLInputElement).value;
         const password = (document.getElementById('login__password') as HTMLInputElement).value;
         authService.login(login, password)
@@ -43,9 +43,14 @@ class Login extends React.Component<{}, ILoginSate> {
 
     }
 
+    private handleSignUp = (): void => {
+        this.setState({redirectToSignUp: true});
+    }
+
     render(): JSX.Element {
         return (
             this.state.isSuccess ? <Redirect to='/im' /> :
+            this.state.redirectToSignUp ? <Redirect to='/register' /> :
             <>
                 <div className={classNames.login}>
                     <div className={classNames.loginForm}>
@@ -62,13 +67,13 @@ class Login extends React.Component<{}, ILoginSate> {
                                 className={classNames.inputPassword} 
                                 id='login__password'
                             />
-                        <button className={classNames.loginButton} onClick={this.handleClick} >Log in</button>
+                        <button className={classNames.loginButton} onClick={this.handleLogin} >Log in</button>
                         <div className={classNames.noAccount}>
                             <div className={classNames.lineImg} />
                             <span>Have not account?</span>
                             <div className={classNames.lineImg} />
                         </div>
-                        <button className={classNames.buttonSignUp}>Sign up</button>
+                        <button className={classNames.buttonSignUp} onClick={this.handleSignUp} >Sign up</button>
                     </div>
                 </div>
             </>

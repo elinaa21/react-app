@@ -141,7 +141,7 @@ app.get('/api/check', (req, res) => {
 });
 
 app.delete('/api/login', (req, res) => {
-	res.set('Access-Control-Allow-Origin', '*');
+	res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
 	res.set('Access-Control-Allow-Credentials', 'true');
 	res.set('Set-Cookie',`${req.get('Cookie')}; Max-age=0`);
 	res.status(RESPONSE_CODES.OK);

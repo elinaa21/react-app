@@ -20,41 +20,40 @@ const classNames = {
 
 interface IMainState {
     progress: boolean;
-    redirect: boolean;
+    redirectToLogin: boolean;
 }
 
 class Main extends React.Component<{}, IMainState> {
     constructor(props: {}) {
         super(props);
-        this.handleExit = this.handleExit.bind(this);
         const authInfo = authService.getAuthData();
         if (authInfo instanceof Promise) {
-            this.state = { progress: true, redirect: false };
+            this.state = { progress: true, redirectToLogin: false };
             authInfo.then(result => {
                 if (result.isAuth) {
                     this.setState({ progress: false });
                 } else {
-                    this.setState({ progress: false, redirect: true });
+                    this.setState({ progress: false, redirectToLogin: true });
                 }
             })
         } else {
             if (authInfo.isAuth) {
-                this.state = { progress: false, redirect: false };
+                this.state = { progress: false, redirectToLogin: false };
             } else {
-                this.setState({ progress: false, redirect: true });
+                this.setState({ progress: false, redirectToLogin: true });
             }             
         }
     }
 
-    handleExit(): void {
-        authService.clearData();
-        this.setState({ redirect: true });
+    handleExit = (): void => {
+        authService.logOut()
+        .then (() => this.setState({ redirectToLogin: true }));
     }
 
     render(): JSX.Element {
         return (
             this.state.progress ? <Loader /> :
-            this.state.redirect ? <Redirect to='/login' /> :
+            this.state.redirectToLogin ? <Redirect to='/login' /> :
             <>
                 <div className={classNames.background}>
                     <div className={classNames.chat}>
