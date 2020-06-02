@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "ignorePatterns": ["webpack.config.js", "server.js"],
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+        "jsx": true
+    }
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+      "quotes": [2, "single"],
+      "@typescript-eslint/interface-name-prefix": [
+        "off",
+        {
+            "prefixWithI": "always"
+        }
+    ]
+  }
+}
