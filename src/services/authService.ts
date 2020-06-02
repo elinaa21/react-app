@@ -45,7 +45,7 @@ class AuthService {
         return { isAuth: this.isAuth, userName: this.userName };
     }
 
-    private clearData(): void {
+    public clearData(): void {
         if (localStorage) {
             delete localStorage.isAuth;
             delete localStorage.userName;

@@ -26,6 +26,7 @@ interface IMainState {
 class Main extends React.Component<{}, IMainState> {
     constructor(props: {}) {
         super(props);
+        this.handleExit = this.handleExit.bind(this);
         const authInfo = authService.getAuthData();
         if (authInfo instanceof Promise) {
             this.state = { progress: true, redirect: false };
@@ -45,6 +46,11 @@ class Main extends React.Component<{}, IMainState> {
         }
     }
 
+    handleExit(): void {
+        authService.clearData();
+        this.setState({ redirect: true });
+    }
+
     render(): JSX.Element {
         return (
             this.state.progress ? <Loader /> :
@@ -55,7 +61,7 @@ class Main extends React.Component<{}, IMainState> {
                         <ContactsField />
                         <ChatField />
                         <div className={classNames.side}>
-                            <button className={classNames.buttonExit}>EXIT</button>
+                            <button className={classNames.buttonExit} onClick={this.handleExit} >EXIT</button>
                             <span className={classNames.sideName}>Elinaaa</span>
                         </div>
                     </div>
