@@ -64,21 +64,22 @@ class Register extends React.Component<{}, IRegisterState> {
                         <h1 className={classNames.headRegisterForm}>Sign up</h1>
                         <input 
                             type='text' 
-                            placeholder='Username' 
-                            className={classNames.inputUsername}
-                            id='register__username' 
+                            placeholder='Username'
+                            id='register__username'
+                            name='username'
                         />
                         <input 
                             type='password' 
-                            placeholder='Create password' 
-                            className={classNames.inputPassword}
-                            id='register__password' 
+                            placeholder='Create password'
+                            id='register__password'
+                            name='password'
                         />
                         <input 
                             type='password' 
                             placeholder='Confirm password' 
                             className={classNames.inputPassword}
-                            id='register__password_repeat' 
+                            id='register__password_repeat'
+                            name='password' 
                         />
                         <span 
                             className={classNames.incorrectPassword} 

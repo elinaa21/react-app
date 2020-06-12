@@ -47,28 +47,6 @@
 
 }
 
-@mixin input {
-    font: {
-        family: inherit;
-        size: 120%;
-    }
-    outline: none;
-    width: 25%;
-    height: 4%;
-    margin-bottom: 2%;
-    padding-left: 7px;
-}
-
-.input {
-    &-username {
-        @include input;
-        
-    }
-    &-password {
-        @include input;
-    }
-}
-
 .has-account {
     margin: 2% 0;
     width: 25%;

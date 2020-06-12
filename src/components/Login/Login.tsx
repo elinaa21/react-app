@@ -3,9 +3,10 @@ import { Redirect } from 'react-router-dom';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 
 import { cn } from '../../modules/cn';
-import { required, maxLength30 } from '../../modules/validator';
+import { required, maxLength25, minLength4, alphaNumeric } from '../../modules/validator';
 import authService from '../../services/authService';
 
+import Input from '../Input/Input';
 import './Login.scss';
 
 const classNames = {
@@ -32,6 +33,7 @@ class Login extends React.Component<InjectedFormProps, ILoginSate> { //React.Com
     }
 
     private handleLogin = (): void => {
+        if (this.props.invalid) return;
         const login = (document.getElementById('login__username') as HTMLInputElement).value;
         const password = (document.getElementById('login__password') as HTMLInputElement).value;
         authService.login(login, password)
@@ -54,34 +56,37 @@ class Login extends React.Component<InjectedFormProps, ILoginSate> { //React.Com
             this.state.redirectToSignUp ? <Redirect to='/register' /> :
             <>
                 <div className={classNames.login}>
-                    <form className={classNames.loginForm} onSubmit={this.props.handleSubmit}>
+                    <div className={classNames.loginForm} >
                         <h1 className={classNames.headLoginForm}>Log in</h1>
                         <Field 
-                            component='input' 
+                            component={Input}
+                            validate={[required, maxLength25, minLength4, alphaNumeric]}
                             type='text'
                             name='username'
                             placeholder='Username' 
-                            className={classNames.inputUsername} 
                             id='login__username'
-                            validate={required}
                         />
-                        {(this.props.invalid) && (this.props.anyTouched) && <span>error</span>}
                         <Field
-                            component='input' 
+                            component={Input}
+                            validate={[required, maxLength25, minLength4]}
                             type='password'
                             name='password'
                             placeholder='Password' 
                             className={classNames.inputPassword} 
                             id='login__password'
                         />
-                        <button className={classNames.loginButton} onClick={this.handleLogin} >Log in</button>
+                        <button className={classNames.loginButton} onClick={this.handleLogin}>
+                                Log in
+                        </button>
                         <div className={classNames.noAccount}>
                             <div className={classNames.lineImg} />
                             <span>Have not account?</span>
                             <div className={classNames.lineImg} />
                         </div>
-                        <button className={classNames.buttonSignUp} onClick={this.handleSignUp} >Sign up</button>
-                    </form>
+                        <button className={classNames.buttonSignUp} onClick={this.handleSignUp} >
+                            Sign up
+                        </button>
+                    </div>
                 </div>
             </>
         )

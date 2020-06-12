@@ -35,6 +35,7 @@
             family: inherit;
             weight: 200;
         }
+        margin-top: 2%;
         padding: 0.5% 4%;
         color: inherit;
         background: linear-gradient(180deg, #6209EF -16.25%, #1919E0 116.25%);
@@ -45,28 +46,6 @@
         cursor: pointer;
     }
 
-}
-
-@mixin input {
-    font: {
-        family: inherit;
-        size: 120%;
-    }
-    outline: none;
-    width: 25%;
-    height: 4%;
-    margin-bottom: 2%;
-    padding-left: 7px;
-}
-
-.input {
-    &-username {
-        @include input;
-        
-    }
-    &-password {
-        @include input;
-    }
 }
 
 .no-account {
