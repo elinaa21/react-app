@@ -5,7 +5,7 @@ interface IAuthData {
 
 class AuthService {
     private isAuth: boolean;
-    private userName: string;
+    public userName: string;
     private checkAuthFetch?: Promise<IAuthData>; 
     private backUrl = 'http://localhost:8000/api';
 

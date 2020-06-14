@@ -35,6 +35,7 @@
             family: inherit;
             weight: 200;
         }
+        margin-top: 2%;
         padding: 0.5% 4%;
         color: inherit;
         background: linear-gradient(180deg, #6209EF -16.25%, #1919E0 116.25%);
@@ -81,10 +82,4 @@
         position: center;
         repeat: no-repeat;
     }
-}
-
-.incorrect {
-    position: absolute;
-    color: red;
-    display: none;
 }

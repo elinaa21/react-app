@@ -1,8 +1,11 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 
 import { cn } from '../../modules/cn';
 import authService from '../../services/authService';
+import { required, maxLength25, minLength4, alphaNumeric, matchPassword } from '../../modules/validator';
+import Input from '../Input/Input';
 
 import './Register.scss';
 
@@ -16,7 +19,6 @@ const classNames = {
     hasAccount: cn('has-account'),
     lineImg: cn('line-image'),
     buttonLogin: cn('login-sign-up'),
-    incorrectPassword: cn('incorrect'),
 };
 
 interface IRegisterState {
@@ -24,8 +26,8 @@ interface IRegisterState {
     redirectToLogin: boolean;
 }
 
-class Register extends React.Component<{}, IRegisterState> {
-    constructor(props = {}) {
+class Register extends React.Component<InjectedFormProps, IRegisterState> {
+    constructor(props: InjectedFormProps) {
         super(props);
         this.state = { isSuccess: false, redirectToLogin: false };
     }
@@ -35,23 +37,17 @@ class Register extends React.Component<{}, IRegisterState> {
     }
 
     handleSignUp = (): void => {
+        if (this.props.invalid) return;
         const login = (document.getElementById('register__username') as HTMLInputElement).value;
         const password = (document.getElementById('register__password') as HTMLInputElement).value;
-        const passwordRepeat = (document.getElementById('register__password_repeat') as HTMLInputElement).value;
-        if (password === passwordRepeat) {
-            authService.register(login, password)
-            .then((response: Response) => {
-                if (response.ok) {
-                    this.setState({ isSuccess: true });
-                } else {
-                    this.setState({ isSuccess: false });
-                }
-            });
-        } else {
-            
-            const incorrectLabel = document.getElementById('incorrect-label');
-            incorrectLabel.style.display = 'block';
-        }
+        authService.register(login, password)
+        .then((response: Response) => {
+            if (response.ok) {
+                this.setState({ isSuccess: true });
+            } else {
+                this.setState({ isSuccess: false });
+            }
+        });
     }
 
     render(): JSX.Element {
@@ -62,30 +58,30 @@ class Register extends React.Component<{}, IRegisterState> {
                 <div className={classNames.register}>
                     <div className={classNames.registerForm}>
                         <h1 className={classNames.headRegisterForm}>Sign up</h1>
-                        <input 
+                        <Field 
+                            component={Input}
                             type='text' 
                             placeholder='Username'
                             id='register__username'
                             name='username'
+                            validate={[required, maxLength25, minLength4, alphaNumeric]}
                         />
-                        <input 
+                        <Field 
+                            component={Input}
                             type='password' 
                             placeholder='Create password'
                             id='register__password'
                             name='password'
+                            validate={[required, maxLength25, minLength4]}
                         />
-                        <input 
+                        <Field 
+                            component={Input}
                             type='password' 
                             placeholder='Confirm password' 
                             className={classNames.inputPassword}
-                            id='register__password_repeat'
-                            name='password' 
+                            name='passwordConfirm' 
+                            validate={[required, maxLength25, minLength4, matchPassword]}
                         />
-                        <span 
-                            className={classNames.incorrectPassword} 
-                            id='incorrect-label' >
-                                Password is incorrect
-                        </span>
                         <button className={classNames.registerButton} onClick={this.handleSignUp} >Sign up</button>
                         <div className={classNames.hasAccount}>
                             <div className={classNames.lineImg} />
@@ -100,4 +96,8 @@ class Register extends React.Component<{}, IRegisterState> {
     }
 }
 
-export default Register;
+const RegisterReduxForm = reduxForm({
+    form: 'register'
+})(Register)
+
+export default RegisterReduxForm;

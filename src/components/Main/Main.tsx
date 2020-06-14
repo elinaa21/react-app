@@ -61,7 +61,7 @@ class Main extends React.Component<{}, IMainState> {
                         <ChatField />
                         <div className={classNames.side}>
                             <button className={classNames.buttonExit} onClick={this.handleExit} >EXIT</button>
-                            <span className={classNames.sideName}>Elinaaa</span>
+                            <span className={classNames.sideName}>{authService.userName}</span>
                         </div>
                     </div>
                 </div>

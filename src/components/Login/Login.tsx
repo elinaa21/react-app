@@ -5,16 +5,14 @@ import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import { cn } from '../../modules/cn';
 import { required, maxLength25, minLength4, alphaNumeric } from '../../modules/validator';
 import authService from '../../services/authService';
-
 import Input from '../Input/Input';
+
 import './Login.scss';
 
 const classNames = {
     login: cn('login'),
     loginForm: cn('login-form'),
     headLoginForm: cn('login-form', 'headline'),
-    inputUsername: cn('input-username'),
-    inputPassword: cn('input-password'),
     loginButton: cn('login', 'button'),
     noAccount: cn('no-account'),
     lineImg: cn('line-image'),
@@ -26,7 +24,7 @@ interface ILoginSate {
     redirectToSignUp: boolean;
 }
 
-class Login extends React.Component<InjectedFormProps, ILoginSate> { //React.Component<{}, ILoginSate> {
+class Login extends React.Component<InjectedFormProps, ILoginSate> {
     constructor(props: InjectedFormProps) {
         super(props);
         this.state = { isSuccess: false, redirectToSignUp: false };
@@ -72,7 +70,6 @@ class Login extends React.Component<InjectedFormProps, ILoginSate> { //React.Com
                             type='password'
                             name='password'
                             placeholder='Password' 
-                            className={classNames.inputPassword} 
                             id='login__password'
                         />
                         <button className={classNames.loginButton} onClick={this.handleLogin}>

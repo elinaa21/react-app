@@ -6,8 +6,6 @@ import './Input.scss';
 const classNames = {
     errorMessage: cn('error-message'),
     errorContainer: cn('error-container'),
-    inputData: cn('input-data'),
-    inputDataError: cn('input-data', '', {error: true}),
 }
 
 interface IPropsInput {
