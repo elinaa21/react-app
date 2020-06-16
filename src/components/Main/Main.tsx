@@ -26,28 +26,34 @@ interface IMainState {
 class Main extends React.Component<{}, IMainState> {
     constructor(props: {}) {
         super(props);
-        const authInfo = authService.getAuthData();
-        if (authInfo instanceof Promise) {
-            this.state = { progress: true, redirectToLogin: false };
-            authInfo.then(result => {
-                if (result.isAuth) {
-                    this.setState({ progress: false });
-                } else {
-                    this.setState({ progress: false, redirectToLogin: true });
-                }
-            })
-        } else {
-            if (authInfo.isAuth) {
-                this.state = { progress: false, redirectToLogin: false };
-            } else {
-                this.setState({ progress: false, redirectToLogin: true });
-            }             
-        }
+        this.state = { progress: true, redirectToLogin: false };
+        console.log(props);
+        // const authInfo = authService.getAuthData();
+        // if (authInfo instanceof Promise) {
+        //     this.state = { progress: true, redirectToLogin: false };
+        //     authInfo.then(result => {
+        //         if (result.isAuth) {
+        //             this.setState({ progress: false });
+        //         } else {
+        //             this.setState({ progress: false, redirectToLogin: true });
+        //         }
+        //     })
+        // } else {
+        //     if (authInfo.isAuth) {
+        //         this.state = { progress: false, redirectToLogin: false };
+        //     } else {
+        //         this.state = { progress: false, redirectToLogin: true };
+        //     }             
+        // }
+    }
+
+    componentDidUpdate(): void {
+        console.log(this.props);
     }
 
     handleExit = (): void => {
-        authService.logOut()
-        .then (() => this.setState({ redirectToLogin: true }));
+        this.setState({ redirectToLogin: true });
+        authService.logOut();
     }
 
     render(): JSX.Element {

@@ -24,17 +24,22 @@ interface ILoginSate {
     redirectToSignUp: boolean;
 }
 
+
+
 class Login extends React.Component<InjectedFormProps, ILoginSate> {
     constructor(props: InjectedFormProps) {
         super(props);
         this.state = { isSuccess: false, redirectToSignUp: false };
     }
 
+    login = (document.getElementById('login__username') as HTMLInputElement).value;
+    password = (document.getElementById('login__password') as HTMLInputElement).value;
+
     private handleLogin = (): void => {
         if (this.props.invalid) return;
-        const login = (document.getElementById('login__username') as HTMLInputElement).value;
-        const password = (document.getElementById('login__password') as HTMLInputElement).value;
-        authService.login(login, password)
+        this.login = this.login ? this.login : (document.getElementById('login__username') as HTMLInputElement).value;
+        this.password = this.password ? this.password : (document.getElementById('login__password') as HTMLInputElement).value;
+        authService.login(this.login, this.password)
             .then((response: Response) => {
                 if (response.ok) {
                     this.setState({ isSuccess: true });

@@ -36,11 +36,14 @@ class Register extends React.Component<InjectedFormProps, IRegisterState> {
         this.setState({ redirectToLogin: true });
     }
 
+    login = (document.getElementById('register__username') as HTMLInputElement).value;
+    password = (document.getElementById('register__password') as HTMLInputElement).value;
+
     handleSignUp = (): void => {
         if (this.props.invalid) return;
-        const login = (document.getElementById('register__username') as HTMLInputElement).value;
-        const password = (document.getElementById('register__password') as HTMLInputElement).value;
-        authService.register(login, password)
+        this.login = this.login ? this.login : (document.getElementById('register__username') as HTMLInputElement).value;
+        this.password = this.password ? this.password : (document.getElementById('register__password') as HTMLInputElement).value;
+        authService.register(this.login, this.password)
         .then((response: Response) => {
             if (response.ok) {
                 this.setState({ isSuccess: true });
