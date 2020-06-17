@@ -24,8 +24,6 @@ interface ILoginSate {
     redirectToSignUp: boolean;
 }
 
-
-
 class Login extends React.Component<InjectedFormProps, ILoginSate> {
     constructor(props: InjectedFormProps) {
         super(props);
