@@ -6,7 +6,7 @@ export const actionTypes = {
     SET_USER_DATA: 'SET_USER_DATA',
 };
 
-interface IChatState {
+export interface IChatState {
     isLoading: boolean;
     isAuth: boolean;
     userName: string;

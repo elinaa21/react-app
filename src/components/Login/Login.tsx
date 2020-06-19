@@ -1,11 +1,15 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import { connect } from 'react-redux';
 
 import { cn } from '../../modules/cn';
 import { required, maxLength25, minLength4, alphaNumeric } from '../../modules/validator';
-import authService from '../../services/authService';
 import Input from '../Input/Input';
+import { IChatState } from '../../redux/auth/reducers';
+import { IActionType, loginThunk } from '../../redux/auth/actions';
 
 import './Login.scss';
 
@@ -19,32 +23,42 @@ const classNames = {
     buttonSignUp: cn('login-sign-up'),
 };
 
-interface ILoginSate {
+interface ILoginState {
     isSuccess: boolean;
     redirectToSignUp: boolean;
 }
 
-class Login extends React.Component<InjectedFormProps, ILoginSate> {
-    constructor(props: InjectedFormProps) {
+interface ILoginProps {
+    isAuth: boolean;
+    isLoading: boolean;
+    loginThunk?: (login: string, password: string) => void;
+}
+
+class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState> {
+    constructor(props: InjectedFormProps & ILoginProps) {
         super(props);
         this.state = { isSuccess: false, redirectToSignUp: false };
     }
 
-    login = (document.getElementById('login__username') as HTMLInputElement).value;
-    password = (document.getElementById('login__password') as HTMLInputElement).value;
+    private loginElement?: HTMLInputElement;
+    private passwordElement?: HTMLInputElement;
+    private login?: string;
+    private password?: string;
 
     private handleLogin = (): void => {
         if (this.props.invalid) return;
-        this.login = this.login ? this.login : (document.getElementById('login__username') as HTMLInputElement).value;
-        this.password = this.password ? this.password : (document.getElementById('login__password') as HTMLInputElement).value;
-        authService.login(this.login, this.password)
-            .then((response: Response) => {
-                if (response.ok) {
-                    this.setState({ isSuccess: true });
-                } else {
-                    this.setState({ isSuccess: false });
-                }
-            });
+        this.login = this.loginElement.value;
+        this.password = this.passwordElement.value;
+        this.props.loginThunk(this.login, this.password);
+    }
+
+    componentDidMount(): void {
+        this.loginElement = this.loginElement ? 
+            this.loginElement : 
+            (document.getElementById('login__username') as HTMLInputElement);
+        this.passwordElement = this.passwordElement ? 
+            this.passwordElement :
+            (document.getElementById('login__password') as HTMLInputElement);
     }
 
     private handleSignUp = (): void => {
@@ -52,8 +66,9 @@ class Login extends React.Component<InjectedFormProps, ILoginSate> {
     }
     
     render(): JSX.Element {
+        console.log(this.props);
         return (
-            this.state.isSuccess ? <Redirect to='/im' /> :
+            this.state.isSuccess || this.props.isAuth ? <Redirect to='/im' /> :
             this.state.redirectToSignUp ? <Redirect to='/register' /> :
             <>
                 <div className={classNames.login}>
@@ -97,4 +112,13 @@ const LoginReduxForm = reduxForm({
     form: 'login'
 })(Login)
 
-export default LoginReduxForm;
+const mapStateToProps = (state: {auth: IChatState}): ILoginProps => ({
+    isLoading: state.auth.isLoading,
+    isAuth: state.auth.isAuth,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<IChatState, {}, Action<IActionType>>): {} => ({ 
+    loginThunk: (login: string, password: string): void => loginThunk(login, password, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginReduxForm);

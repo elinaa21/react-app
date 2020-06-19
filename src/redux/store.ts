@@ -1,8 +1,9 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import authService from '../services/authService';
 import { setUserData, setLoading } from './auth/actions';
 import { authReducer } from './auth/reducers';
+import thunk from 'redux-thunk';
 
 // interface IAppState {
 //     loading: boolean;
@@ -10,7 +11,8 @@ import { authReducer } from './auth/reducers';
 
 const reducers = combineReducers({
     form: formReducer,
-    auth: authReducer
+    auth: authReducer,
+    thunk: applyMiddleware(thunk)
 });
 
 const store = createStore(reducers);
@@ -31,7 +33,7 @@ if (answer instanceof Promise) {
         store.dispatch(setUserData(answer.userName, true));
     } else {
         store.dispatch(setUserData('', false));
-    }    
+    }
 }
 
 

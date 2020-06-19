@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 import Register from '../Register/Register';
-import Loader from '../Loader/Loader';
 import Main from '../Main/Main';
 import LoginReduxForm from '../Login/Login';
 
@@ -14,7 +13,6 @@ const App: React.FC = () => (
         <Route path='/im' component={Main} />
         <Route path='/login' component={LoginReduxForm} />
         <Route path='/register' component={Register} />
-        <Route path='/loader' component={Loader} />
     </BrowserRouter>
 );
 

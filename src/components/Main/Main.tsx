@@ -1,11 +1,15 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
 import ChatField from '../ChatField/ChatField';
 import ContactsField from '../ContactsField/ContactsField';
 import Loader from '../Loader/Loader';
 import { cn } from '../../modules/cn';
-import authService from '../../services/authService';
+import { IChatState } from '../../redux/auth/reducers';
+import { getAuthDataThunk, IActionType } from '../../redux/auth/actions';
 
 import './Main.scss';
 
@@ -18,16 +22,17 @@ const classNames = {
     sideName: cn('side', 'name'),
 }
 
-interface IMainState {
-    progress: boolean;
-    redirectToLogin: boolean;
+interface IMainProps {
+    isLoading: boolean;
+    isAuth: boolean;
+    userName: string;
 }
 
-class Main extends React.Component<{}, IMainState> {
-    constructor(props: {}) {
-        super(props);
-        this.state = { progress: true, redirectToLogin: false };
-        console.log(props);
+class Main extends React.Component<IMainProps, {}> {
+    // constructor(props: {}) {
+    //     super(props);
+        // this.state = { progress: true, redirectToLogin: false };
+        // console.log(props);
         // const authInfo = authService.getAuthData();
         // if (authInfo instanceof Promise) {
         //     this.state = { progress: true, redirectToLogin: false };
@@ -45,21 +50,17 @@ class Main extends React.Component<{}, IMainState> {
         //         this.state = { progress: false, redirectToLogin: true };
         //     }             
         // }
-    }
-
-    componentDidUpdate(): void {
-        console.log(this.props);
-    }
+    //}
 
     handleExit = (): void => {
-        this.setState({ redirectToLogin: true });
-        authService.logOut();
+        //this.props({ redirectToLogin: true });
+        //authService.logOut();
     }
 
     render(): JSX.Element {
         return (
-            this.state.progress ? <Loader /> :
-            this.state.redirectToLogin ? <Redirect to='/login' /> :
+            this.props.isLoading ? <Loader /> :
+            !this.props.isAuth ? <Redirect to='/login' /> :
             <>
                 <div className={classNames.background}>
                     <div className={classNames.chat}>
@@ -67,7 +68,7 @@ class Main extends React.Component<{}, IMainState> {
                         <ChatField />
                         <div className={classNames.side}>
                             <button className={classNames.buttonExit} onClick={this.handleExit} >EXIT</button>
-                            <span className={classNames.sideName}>{authService.userName}</span>
+                            <span className={classNames.sideName}>{this.props.userName}</span>
                         </div>
                     </div>
                 </div>
@@ -76,5 +77,18 @@ class Main extends React.Component<{}, IMainState> {
     }
 }
 
+const mapStateToProps = (state: {auth: IChatState}): IMainProps => {
+    return {
+        isLoading: state.auth.isLoading,
+        isAuth: state.auth.isAuth,
+        userName: state.auth.userName,
+    };
+}
 
-export default Main;
+const mapDispatchToProps = (dispatch: ThunkDispatch<IChatState, {}, Action<IActionType>>): {} => {
+    return {
+        //getAuthData: getAuthDataThunk(dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
