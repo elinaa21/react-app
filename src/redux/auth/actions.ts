@@ -19,22 +19,12 @@ export const setUserData = (userName: string, isAuth: boolean): IActionType => (
     payload: { userName, isAuth }
 });
 
+export const setLoginError = (): IActionType => ({ type: actionTypes.SET_LOGIN_ERROR });
+
 export const logOutThunk = (dispatch: Dispatch<IActionType>): void => {
     dispatch(setUserData('', false));
     authService.logOut();
 };
-
-export const getAuthDataThunk = (dispatch: Dispatch<IActionType>): void => {
-    dispatch(setLoading());
-    const authInfo = authService.getAuthData();
-        if (authInfo instanceof Promise) {
-            authInfo.then(result => {
-                dispatch(setUserData(result.userName, result.isAuth));
-            })
-        } else {
-            dispatch(setUserData(authInfo.userName, authInfo.isAuth))          
-        }
-}
 
 export const loginThunk = (login: string, password: string, dispatch: Dispatch<IActionType>): void => {
     authService.login(login, password)
@@ -42,7 +32,7 @@ export const loginThunk = (login: string, password: string, dispatch: Dispatch<I
             if (answer.status === 200) {
                 dispatch(setUserData(login, true));
             } else {
-                // диспачить экшн который выставляет сообщение об ошибке
+                dispatch(setLoginError());
             }
         });
 }

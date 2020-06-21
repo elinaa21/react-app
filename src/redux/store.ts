@@ -5,10 +5,6 @@ import { setUserData, setLoading } from './auth/actions';
 import { authReducer } from './auth/reducers';
 import thunk from 'redux-thunk';
 
-// interface IAppState {
-//     loading: boolean;
-// }
-
 const reducers = combineReducers({
     form: formReducer,
     auth: authReducer,

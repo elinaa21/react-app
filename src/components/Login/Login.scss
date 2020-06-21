@@ -46,6 +46,11 @@
         cursor: pointer;
     }
 
+    &-error {
+        color: red;
+        font-size: 120%;
+        display: none;
+    }
 }
 
 .no-account {
