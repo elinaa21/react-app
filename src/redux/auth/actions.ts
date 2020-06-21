@@ -19,9 +19,10 @@ export const setUserData = (userName: string, isAuth: boolean): IActionType => (
     payload: { userName, isAuth }
 });
 
-// const logOut = () => ({
-
-// });
+export const logOutThunk = (dispatch: Dispatch<IActionType>): void => {
+    dispatch(setUserData('', false));
+    authService.logOut();
+};
 
 export const getAuthDataThunk = (dispatch: Dispatch<IActionType>): void => {
     dispatch(setLoading());

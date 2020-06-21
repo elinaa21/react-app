@@ -36,6 +36,4 @@ if (answer instanceof Promise) {
     }
 }
 
-
-
 export default store;

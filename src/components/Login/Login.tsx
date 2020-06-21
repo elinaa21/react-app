@@ -66,9 +66,8 @@ class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState
     }
     
     render(): JSX.Element {
-        console.log(this.props);
         return (
-            this.state.isSuccess || this.props.isAuth ? <Redirect to='/im' /> :
+            this.props.isAuth ? <Redirect to='/im' /> :
             this.state.redirectToSignUp ? <Redirect to='/register' /> :
             <>
                 <div className={classNames.login}>

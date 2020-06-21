@@ -9,7 +9,7 @@ import ContactsField from '../ContactsField/ContactsField';
 import Loader from '../Loader/Loader';
 import { cn } from '../../modules/cn';
 import { IChatState } from '../../redux/auth/reducers';
-import { getAuthDataThunk, IActionType } from '../../redux/auth/actions';
+import { IActionType, logOutThunk } from '../../redux/auth/actions';
 
 import './Main.scss';
 
@@ -26,35 +26,12 @@ interface IMainProps {
     isLoading: boolean;
     isAuth: boolean;
     userName: string;
+    logOut?: () => void;
 }
 
 class Main extends React.Component<IMainProps, {}> {
-    // constructor(props: {}) {
-    //     super(props);
-        // this.state = { progress: true, redirectToLogin: false };
-        // console.log(props);
-        // const authInfo = authService.getAuthData();
-        // if (authInfo instanceof Promise) {
-        //     this.state = { progress: true, redirectToLogin: false };
-        //     authInfo.then(result => {
-        //         if (result.isAuth) {
-        //             this.setState({ progress: false });
-        //         } else {
-        //             this.setState({ progress: false, redirectToLogin: true });
-        //         }
-        //     })
-        // } else {
-        //     if (authInfo.isAuth) {
-        //         this.state = { progress: false, redirectToLogin: false };
-        //     } else {
-        //         this.state = { progress: false, redirectToLogin: true };
-        //     }             
-        // }
-    //}
-
     handleExit = (): void => {
-        //this.props({ redirectToLogin: true });
-        //authService.logOut();
+        this.props.logOut();
     }
 
     render(): JSX.Element {
@@ -87,7 +64,7 @@ const mapStateToProps = (state: {auth: IChatState}): IMainProps => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<IChatState, {}, Action<IActionType>>): {} => {
     return {
-        //getAuthData: getAuthDataThunk(dispatch)
+        logOut: (): void => logOutThunk(dispatch)
     }
 }
 
