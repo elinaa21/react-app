@@ -5,7 +5,7 @@ interface IAuthData {
 
 class AuthService {
     private isAuth: boolean;
-    private userName: string;
+    public userName: string;
     private checkAuthFetch?: Promise<IAuthData>; 
     private backUrl = 'http://localhost:8000/api';
 
@@ -18,10 +18,11 @@ class AuthService {
         const options: RequestInit = {
             method: method,
             mode: 'cors',
-            credentials: 'same-origin',
-            headers: { host: 'localhost', 'Content-Type': 'application/json; charset=utf-8' },
+            credentials: 'include',
+            headers: { Host: 'localhost' },
         }
         if (method !== 'GET' && body) {
+            options.headers = { ...options.headers, 'Content-Type': 'application/json; charset=utf-8' }
             options.body = JSON.stringify(body);
         }
         return fetch(url, options);
@@ -29,19 +30,19 @@ class AuthService {
 
     public login(login: string, password: string): Promise<Response|void> {
         return this.sendRequest('/login', 'POST', { login, password })
-            .then(response => {
-                console.log(response.status);
-                return response.json();
-            }).then(body => console.log(body));
+            .then((response) => {
+                console.log('login = ' + response.status);
+                return response;
+            }); 
     }
 
     public register(login: string, password: string): Promise<Response> {
         return this.sendRequest('/register', 'POST', { login, password });
     }
 
-    public getAuthData(): Promise<IAuthData> {
+    public getAuthData(): Promise<IAuthData> | IAuthData {
         if (this.checkAuthFetch) return this.checkAuthFetch;
-        return new Promise((resolve) => resolve({ isAuth: this.isAuth, userName: this.userName }));
+        return { isAuth: this.isAuth, userName: this.userName };
     }
 
     private clearData(): void {
@@ -54,10 +55,18 @@ class AuthService {
         this.userName = '';
     }
 
+    public logOut(): Promise<void> {
+        return this.sendRequest('/login', 'DELETE')
+            .then((response) => {
+                this.clearData();
+                console.log(response.status);
+            });
+    }
+
     private checkAuth(): void {
         if (localStorage) {
-            this.isAuth = localStorage.isAuth || false;
-            this.userName = localStorage.userName || '';
+            this.isAuth = localStorage.getItem('isAuth') === 'true';
+            this.userName = localStorage.getItem('userName') || '';
         }
 
         if (!this.isAuth || !this.userName) {
@@ -72,10 +81,15 @@ class AuthService {
                 } else {
                     this.isAuth = true;
                     this.userName = response.userName;
+                    
+                    if (localStorage) {
+                        localStorage.setItem('isAuth', 'true');
+                        localStorage.setItem('userName', this.userName);
+                    }
                 }
-                return { isAuth: this.isAuth, userName: this.userName }
+                return { isAuth: this.isAuth, userName: this.userName };
             });
-        }
+        } 
     }
 }
 

@@ -1,41 +1,33 @@
 import React from 'react';
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import ChatField from '../ChatField/ChatField';
-import ContactsField from '../ContactsField/ContactsField';
-import Login from '../Login/Login';
 import Register from '../Register/Register';
+import Main from '../Main/Main';
+import LoginReduxForm from '../Login/Login';
+import { IChatState } from '../../redux/auth/reducers';
 import Loader from '../Loader/Loader';
-import { cn } from '../../modules/cn';
 
-import './App.scss';
+const redir = (): JSX.Element => <Redirect to='/im' />;
 
-const classNames = {
-    background: cn('background'),
-    chat: cn('chat'),
-    side: cn('side'),
-    buttonExit: cn('exit'),
-    sideName: cn('side', 'name'),
+interface IAppProps {
+    isLoading: boolean;
 }
 
-const App: React.FC = () => (
-    <BrowserRouter>
-        <Route path="/im">
-            <div className={classNames.background}>
-                <div className={classNames.chat}>
-                    <ContactsField />
-                    <ChatField />
-                    <div className={classNames.side}>
-                        <button className={classNames.buttonExit}>EXIT</button>
-                        <span className={classNames.sideName}>Elinaaa</span>
-                    </div>
-                </div>
-            </div>
-        </Route>
-        <Route path='/login' component={Login}/>
-        <Route path='/register' component={Register}/>
-        <Route path='/loader' component={Loader}/>
-    </BrowserRouter>
-);
+const App: React.FC<IAppProps> = (props: IAppProps) => {
+    return (
+        props.isLoading ? <Loader /> :
+        <BrowserRouter>
+            <Route path='/' component={redir} />
+            <Route path='/im' component={Main} />
+            <Route path='/login' component={LoginReduxForm} />
+            <Route path='/register' component={Register} />
+        </BrowserRouter> 
+    );
+};
 
-export default App;
+const mapStateToProps = (state: {auth: IChatState}): IAppProps => ({
+    isLoading: state.auth.isLoading
+});
+
+export default connect(mapStateToProps, {})(App);

@@ -3,9 +3,11 @@
       "outDir": "./dist",
       "target": "es5",
       "module": "es6",
+      "baseUrl": "./src",
       "jsx": "react",
       "sourceMap": true,
       "noImplicitAny": true,
-      "allowSyntheticDefaultImports": true
-    }
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node"
   }
+}

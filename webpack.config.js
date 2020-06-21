@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     app: path.join(__dirname, 'src', 'index.tsx')
   },
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, "/dist"),
     filename: "index-bundle.js",
@@ -52,6 +53,8 @@ module.exports = {
     ]
   },
   devServer: {
+    historyApiFallback: true,
+    disableHostCheck: true,
     historyApiFallback: true,
   },
   plugins: [
