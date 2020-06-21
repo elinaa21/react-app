@@ -21,6 +21,8 @@ export const setUserData = (userName: string, isAuth: boolean): IActionType => (
 
 export const setLoginError = (): IActionType => ({ type: actionTypes.SET_LOGIN_ERROR });
 
+export const setRegisterError = (): IActionType => ({ type: actionTypes.SET_REGISTER_ERROR });
+
 export const logOutThunk = (dispatch: Dispatch<IActionType>): void => {
     dispatch(setUserData('', false));
     authService.logOut();
@@ -35,4 +37,15 @@ export const loginThunk = (login: string, password: string, dispatch: Dispatch<I
                 dispatch(setLoginError());
             }
         });
+}
+
+export const registerThunk = (login: string, password: string, dispatch: Dispatch<IActionType>): void => {
+    authService.register(login, password)
+    .then((answer: Response) => {
+        if (answer.status === 200) {
+            dispatch(setUserData(login, true));
+        } else {
+            dispatch(setRegisterError());
+        }
+    });
 }

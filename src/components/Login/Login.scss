@@ -50,6 +50,10 @@
         color: red;
         font-size: 120%;
         display: none;
+
+        &_show {
+            display: block;
+        }
     }
 }
 

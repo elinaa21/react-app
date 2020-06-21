@@ -21,17 +21,14 @@ const classNames = {
     noAccount: cn('no-account'),
     lineImg: cn('line-image'),
     buttonSignUp: cn('login-sign-up'),
-    loginError: cn('login-error'),
 };
 
 interface ILoginState {
-    isSuccess: boolean;
     redirectToSignUp: boolean;
 }
 
 interface ILoginProps {
     isAuth: boolean;
-    isLoading: boolean;
     loginError: boolean;
     loginThunk?: (login: string, password: string) => void;
 }
@@ -39,7 +36,7 @@ interface ILoginProps {
 class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState> {
     constructor(props: InjectedFormProps & ILoginProps) {
         super(props);
-        this.state = { isSuccess: false, redirectToSignUp: false };
+        this.state = { redirectToSignUp: false };
     }
 
     private loginElement?: HTMLInputElement;
@@ -75,9 +72,7 @@ class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState
                 <div className={classNames.login}>
                     <div className={classNames.loginForm} >
                         <h1 className={classNames.headLoginForm}>Log in</h1>
-                        <div 
-                            className={classNames.loginError} 
-                            style={this.props.loginError ? {'display': 'block'} : {'display': 'none'}}>
+                        <div className={cn('login-error', '', {show: this.props.loginError})}>
                             login error
                         </div>
                         <Field 
@@ -119,7 +114,6 @@ const LoginReduxForm = reduxForm({
 })(Login)
 
 const mapStateToProps = (state: {auth: IChatState}): ILoginProps => ({
-    isLoading: state.auth.isLoading,
     isAuth: state.auth.isAuth,
     loginError: state.auth.loginError,
 });

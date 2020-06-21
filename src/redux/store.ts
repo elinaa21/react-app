@@ -17,7 +17,6 @@ const answer = authService.getAuthData();
 if (answer instanceof Promise) {
     store.dispatch(setLoading());
     answer.then(result => {
-        console.log(result);
         if (result.isAuth) {
             store.dispatch(setUserData(result.userName, true));
         } else {
