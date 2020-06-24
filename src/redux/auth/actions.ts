@@ -49,3 +49,5 @@ export const registerThunk = (login: string, password: string, dispatch: Dispatc
         }
     });
 }
+
+// export const setMessage = (mess: string): IActionType

@@ -18,6 +18,7 @@ if (answer instanceof Promise) {
     store.dispatch(setLoading());
     answer.then(result => {
         if (result.isAuth) {
+            //тут тоже мэтч
             store.dispatch(setUserData(result.userName, true));
         } else {
             store.dispatch(setUserData('', false));
@@ -25,6 +26,7 @@ if (answer instanceof Promise) {
     });
 } else {
     if (answer.isAuth) {
+        //вот здесь мэтч
         store.dispatch(setUserData(answer.userName, true));
     } else {
         store.dispatch(setUserData('', false));

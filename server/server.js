@@ -6,6 +6,44 @@ const mongoClient = require('mongodb').MongoClient;
 const mongoURL = 'mongodb://localhost:27017';
 
 const app = express();
+const ws = require('http').createServer(app);
+const io = require('socket.io').listen(ws);
+ws.listen(777);
+
+const userNameToId = {};
+const anonyms = {};
+
+io.sockets.on('connection', function (socket) {
+    console.log('connected');
+
+    const { id } = socket.client;
+    console.log(`User connected: ${id}`);
+    anonyms[id] = true;
+
+    socket.on('chatMessage', msg => {
+        console.log(`${id}: ${msg}`);
+        io.emit('chatMessage', msg);
+    });
+
+    socket.on('match', userName => {
+        delete anonyms[id];
+        console.log(userName);
+        if (!userNameToId[userName]) {
+            userNameToId[userName] = [id];
+            return;
+        }
+        userNameToId[userName].push(id);
+    });
+    // socket.broadcast.to()
+
+    socket.on('disconnect', () => {
+        delete anonyms[id];
+        Object.keys(userNameToId).forEach((userName) => {
+            userNameToId[userName] = userNameToId[userName].filter((_id) => _id !== id);
+        });
+        console.log('disconnected');
+    })
+});
 
 app.use(bodyParser.json());
 
@@ -80,11 +118,13 @@ app.post('/api/register', cors(), (req, res) => {
                 if (err) {
                     res.status(RESPONSE_CODES.SERVER_ERROR);
                     res.json({ message: 'internal error' });
+                    return;
                 }
 
                 if (result) {
                     res.status(RESPONSE_CODES.CONFLICT);
                     res.json({ message: 'user already exists' });
+                    return;
                 }
 
                 const sessionId = sha1(`${login}-${password}`);
@@ -107,7 +147,7 @@ app.get('/api/check', (req, res) => {
 	res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
     res.set('Access-Control-Allow-Credentials', 'true');
     let sessionId;
-    const cookie = req.get('Cookie');
+    const cookie = req.get('Cookie').split(';')[0];
     console.log(cookie);
     if (cookie) {
         sessionId = cookie.split('=')[1];
