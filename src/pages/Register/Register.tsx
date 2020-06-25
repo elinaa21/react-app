@@ -43,19 +43,8 @@ class Register extends React.Component<InjectedFormProps & IRegisterProps, IRegi
         this.state = { redirectToLogin: false, loginInput: '', passwordInput: '', confirmPasswordInput: '' };
     }
 
-    // private loginElement?: HTMLInputElement;
-    // private passwordElement?: HTMLInputElement;
     private login?: string;
     private password?: string;
-
-    // componentDidMount(): void {
-    //     this.loginElement = this.loginElement ? 
-    //         this.loginElement : 
-    //         (document.getElementById('register__username') as HTMLInputElement);
-    //     this.passwordElement = this.passwordElement ? 
-    //         this.passwordElement :
-    //         (document.getElementById('register__password') as HTMLInputElement);
-    // }
 
     private onLoginChange = (e: React.SyntheticEvent<EventTarget>): void => {
         this.setState({ loginInput: (e.target as HTMLInputElement).value });

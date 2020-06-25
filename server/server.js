@@ -20,9 +20,9 @@ io.sockets.on('connection', function (socket) {
     console.log(`User connected: ${id}`);
     anonyms[id] = true;
 
-    socket.on('chatMessage', msg => {
-        console.log(`${id}: ${msg}`);
-        io.emit('chatMessage', msg);
+    socket.on('chatMessage', message => {
+        console.log(`${id}: ${message}`);
+        io.emit('chatMessage', message);
     });
 
     socket.on('match', userName => {

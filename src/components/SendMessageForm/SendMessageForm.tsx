@@ -1,12 +1,9 @@
 import React from 'react';
-import io from 'socket.io-client';
 
 import { cn } from '../../modules/cn';
+import chatService from '../../services/chatService'
 
 import './SendMessageForm.scss';
-
-const socket = io.connect('http://localhost:777');
-socket.emit('match', 'user');
 
 const classNames = {
     messageFormContainer: cn('message-form-container'),
@@ -15,33 +12,24 @@ const classNames = {
 };
 
 interface ISendMessageFormState {
-    msg: string;
+    message: string;
     chat: Array<Record<string,string>>;
 }
 
 class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
     constructor(props: {}) {
         super(props);
-        this.state = { msg: '', chat: [] };
-    }
-
-    componentDidMount(): void {
-        socket.on('chatMessage', ({ id, msg }: Record<string,string>) => {
-          // Add new messages to existing messages in "chat"
-          this.setState({
-            chat: [...this.state.chat, { id, msg }]
-          });
-        });
+        this.state = { message: '', chat: [] };
     }
 
     onTextChange = (e: React.SyntheticEvent<EventTarget>): void => {
-        this.setState({ msg: (e.target as HTMLInputElement).value });
+        this.setState({ message: (e.target as HTMLInputElement).value });
     };
 
     onMessageSubmit = (): void => {
-        socket.emit('chatMessage', this.state.msg); // `[[${from}]][[${to}]]${this.state.msg}`
-        this.setState({ msg: '' });
-    };
+        chatService.sendMessage(this.state.message);
+        this.setState({message: ''})
+    }
 
     render(): JSX.Element {
         return (
@@ -51,7 +39,7 @@ class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
                     placeholder="Type your message" 
                     rows={3}
                     onChange={(e): void => this.onTextChange(e)}
-                    value={this.state.msg}
+                    value={this.state.message}
                 />
                 <span className={classNames.messageFormContainerButton} onClick={this.onMessageSubmit}>
                     SEND

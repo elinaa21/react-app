@@ -49,8 +49,6 @@ class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState
         this.setState({ passwordInput: (e.target as HTMLInputElement).value });
     };
 
-    // private loginElement?: HTMLInputElement;
-    // private passwordElement?: HTMLInputElement;
     private login?: string;
     private password?: string;
 
@@ -61,15 +59,6 @@ class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState
         this.setState({ loginInput: '', passwordInput: '' });
         this.props.loginThunk(this.login, this.password);
     }
-
-    // componentDidMount(): void {
-    //     this.loginElement = this.loginElement ? 
-    //         this.loginElement : 
-    //         (document.getElementById('login__username') as HTMLInputElement);
-    //     this.passwordElement = this.passwordElement ? 
-    //         this.passwordElement :
-    //         (document.getElementById('login__password') as HTMLInputElement);
-    // }
 
     private handleSignUp = (): void => {
         this.setState({ loginInput: '', passwordInput: '', redirectToSignUp: true });
