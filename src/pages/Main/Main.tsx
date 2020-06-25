@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 
-import ChatField from '../ChatField/ChatField';
-import ContactsField from '../ContactsField/ContactsField';
-import Loader from '../Loader/Loader';
+import ChatField from '../../components/ChatField/ChatField';
+import ContactsField from '../../components/ContactsField/ContactsField';
+import Loader from '../../components/Loader/Loader';
 import { cn } from '../../modules/cn';
 import { IChatState } from '../../redux/auth/reducers';
 import { IActionType, logOutThunk } from '../../redux/auth/actions';
