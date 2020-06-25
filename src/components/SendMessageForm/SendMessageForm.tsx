@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 
 import { cn } from '../../modules/cn';
 import chatService from '../../services/chatService'
@@ -27,11 +27,20 @@ class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
     };
 
     onMessageSubmit = (): void => {
+        if (this.state.message === '') return;
         chatService.sendMessage(this.state.message);
         this.setState({message: ''})
     }
 
+    private handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>): void => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.onMessageSubmit();
+        }
+    }
+
     render(): JSX.Element {
+        console.log(this.state.message);
         return (
             <div className={classNames.messageFormContainer}>
                 <textarea 
@@ -40,6 +49,7 @@ class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
                     rows={3}
                     onChange={(e): void => this.onTextChange(e)}
                     value={this.state.message}
+                    onKeyPress={this.handleKeyPress} 
                 />
                 <span className={classNames.messageFormContainerButton} onClick={this.onMessageSubmit}>
                     SEND

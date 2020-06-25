@@ -3,8 +3,9 @@ import authService from '../../services/authService';
 import { Dispatch } from 'react';
 
 interface IPayload {
-    userName: string;
-    isAuth: boolean;
+    userName?: string;
+    isAuth?: boolean;
+    currentTargetUser?: string;
 }
 
 export interface IActionType {
@@ -37,7 +38,7 @@ export const loginThunk = (login: string, password: string, dispatch: Dispatch<I
                 dispatch(setLoginError());
             }
         });
-}
+};
 
 export const registerThunk = (login: string, password: string, dispatch: Dispatch<IActionType>): void => {
     authService.register(login, password)
@@ -48,6 +49,9 @@ export const registerThunk = (login: string, password: string, dispatch: Dispatc
             dispatch(setRegisterError());
         }
     });
-}
+};
 
-// export const setMessage = (mess: string): IActionType
+export const setCurrentTargetUser = (currentTargetUser: string): IActionType => ({
+    type: actionTypes.SET_CURRENT_TARGET_USER,
+    payload: { currentTargetUser }
+});

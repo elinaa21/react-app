@@ -2,12 +2,13 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import authService from '../services/authService';
 import { setUserData, setLoading } from './auth/actions';
-import { authReducer } from './auth/reducers';
+import { authReducer, chatReducer } from './auth/reducers';
 import thunk from 'redux-thunk';
 
 const reducers = combineReducers({
     form: formReducer,
     auth: authReducer,
+    chat: chatReducer,
     thunk: applyMiddleware(thunk)
 });
 

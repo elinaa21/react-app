@@ -65,7 +65,7 @@ class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState
     }
 
     private handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-        if(e.key === 'Enter'){
+        if (e.key === 'Enter') {
           this.handleLogin();
         }
     }

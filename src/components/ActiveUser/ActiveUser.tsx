@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { cn } from '../../modules/cn';
+import { IChatState } from '../../redux/auth/reducers';
 
 import './ActiveUser.scss';
 
@@ -12,11 +15,14 @@ const classNames = {
 }
 
 interface ActiveUserProps {
-    name: string;
     messages: number;
 }
 
-const ActiveUser: React.FC<ActiveUserProps> = (props: ActiveUserProps) => (
+interface IActiveUserReduxProps {
+    name: string;
+}
+
+const ActiveUser: React.FC<ActiveUserProps> = (props: ActiveUserProps & IActiveUserReduxProps) => (
     <div className={classNames.activeUser}>
         <div className={classNames.activeUserImg} />
         <div className={classNames.activeUserInfo}>
@@ -27,4 +33,8 @@ const ActiveUser: React.FC<ActiveUserProps> = (props: ActiveUserProps) => (
     </div>
 );
 
-export default ActiveUser;
+const mapStateToProps = (state: {chat: IChatState}): IActiveUserReduxProps => ({
+    name: state.chat.currentTargetUser
+});
+
+export default connect(mapStateToProps)(ActiveUser);

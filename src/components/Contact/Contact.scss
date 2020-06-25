@@ -5,6 +5,11 @@
     display: flex;
     justify-content: left;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.274);
+    }
 
     &__img {
         background: url(../../img/contact-icon.png);

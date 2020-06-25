@@ -6,6 +6,7 @@ export const actionTypes = {
     SET_USER_DATA: 'SET_USER_DATA',
     SET_LOGIN_ERROR: 'SET_LOGIN_ERROR',
     SET_REGISTER_ERROR: 'SET_REGISTER_ERROR',
+    SET_CURRENT_TARGET_USER: 'SET_CURRENT_TARGET_USER',
 };
 
 export interface IChatState {
@@ -14,6 +15,7 @@ export interface IChatState {
     userName: string;
     loginError: boolean;
     registerError: boolean;
+    currentTargetUser: string;
 }
 
 const initialState: IChatState = {
@@ -21,7 +23,8 @@ const initialState: IChatState = {
     isAuth: false,
     userName: '',
     loginError: false,
-    registerError: false
+    registerError: false,
+    currentTargetUser: ''
 };
 
 export const authReducer = (state = initialState, action: IActionType): IChatState => {
@@ -46,14 +49,27 @@ export const authReducer = (state = initialState, action: IActionType): IChatSta
             return {
                 ...state,
                 loginError: true
-            }
+            };
 
         case actionTypes.SET_REGISTER_ERROR:
             return {
                 ...state,
                 registerError: true
-            }
+            };
         
+        default:
+            return { ...state };
+    }
+}
+
+export const chatReducer = (state = initialState, action: IActionType): IChatState => {
+    switch (action.type) {
+        case actionTypes.SET_CURRENT_TARGET_USER:
+            return {
+                ...state,
+                currentTargetUser: action.payload.currentTargetUser
+            };
+
         default:
             return { ...state };
     }
