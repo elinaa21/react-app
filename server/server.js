@@ -76,6 +76,7 @@ app.post('/api/login', cors(), (req, res) => {
             if (err) {
                 res.status(RESPONSE_CODES.SERVER_ERROR);
                 res.json({ message: 'internal error' });
+                return;
             }
 
             const database = db.db('test');
@@ -84,6 +85,7 @@ app.post('/api/login', cors(), (req, res) => {
                 if (err) {
                     res.status(RESPONSE_CODES.SERVER_ERROR);
                     res.json({ message: 'internal error' });
+                    return;
                 }
 
                 if (result) {
@@ -111,6 +113,7 @@ app.post('/api/register', cors(), (req, res) => {
             if (err) {
                 res.status(RESPONSE_CODES.SERVER_ERROR);
                 res.json({ message: 'internal error' });
+                return;
             }
 
             const database = db.db('test');
@@ -147,14 +150,15 @@ app.get('/api/check', (req, res) => {
 	res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
     res.set('Access-Control-Allow-Credentials', 'true');
     let sessionId;
-    const cookie = req.get('Cookie').split(';')[0];
-    console.log(cookie);
-    if (cookie) {
+    const cookies = req.get('Cookie');
+    if (cookies) {
+        const cookie = cookies.split(';')[0];
         sessionId = cookie.split('=')[1];
         mongoClient.connect(mongoURL, (err, db) => {
             if (err) {
                 res.status(RESPONSE_CODES.SERVER_ERROR);
                 res.json({ message: 'internal error' });
+                return;
             }
     
             const database = db.db('test');
@@ -162,6 +166,7 @@ app.get('/api/check', (req, res) => {
                 if (err) {
                     res.status(RESPONSE_CODES.SERVER_ERROR);
                     res.json({ message: 'internal error' });
+                    return;
                 }
     
                 if (result && result.login) {
@@ -170,14 +175,15 @@ app.get('/api/check', (req, res) => {
                 } else {
                     res.status(RESPONSE_CODES.FORBIDDEN);
                     res.json({ message: 'invalid cookie', isAuth: false });
+                    return;
                 }
             });
         });
     } else {
         res.status(RESPONSE_CODES.FORBIDDEN);
         res.json({ message: 'invalid cookie', isAuth: false });
+        return;
     }
-   
 });
 
 app.delete('/api/login', (req, res) => {

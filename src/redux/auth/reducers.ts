@@ -48,7 +48,7 @@ export const authReducer = (state = initialState, action: IActionType): IChatSta
                 loginError: true
             }
 
-        case actionTypes.SET_LOGIN_ERROR:
+        case actionTypes.SET_REGISTER_ERROR:
             return {
                 ...state,
                 registerError: true
