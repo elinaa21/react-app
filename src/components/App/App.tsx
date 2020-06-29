@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Register from '../../pages/Register/Register';
 import Main from '../../pages/Main/Main';
 import Login from '../../pages/Login/Login';
-import { IChatState } from '../../redux/auth/reducers';
+import { IAuthState } from '../../redux/auth/reducers';
 import Loader from '../Loader/Loader';
 
 const redir = (): JSX.Element => <Redirect to='/im' />;
@@ -26,7 +26,7 @@ const App: React.FC<IAppProps> = (props: IAppProps) => {
     );
 };
 
-const mapStateToProps = (state: {auth: IChatState}): IAppProps => ({
+const mapStateToProps = (state: {auth: IAuthState}): IAppProps => ({
     isLoading: state.auth.isLoading
 });
 

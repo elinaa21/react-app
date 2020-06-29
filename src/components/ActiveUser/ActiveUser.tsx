@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { cn } from '../../modules/cn';
-import { IChatState } from '../../redux/auth/reducers';
+import { IChatState } from '../../redux/chat/reducers';
 
 import './ActiveUser.scss';
 

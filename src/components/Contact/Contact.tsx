@@ -2,8 +2,8 @@ import React from 'react';
 import { cn } from '../../modules/cn';
 import { connect } from 'react-redux';
 
-import { setCurrentTargetUser, IActionType } from '../../redux/auth/actions';
-import { IChatState } from '../../redux/auth/reducers';
+import { setCurrentTargetUser, IActionType } from '../../redux/chat/actions';
+import { IChatState } from '../../redux/chat/reducers';
 
 import './Contact.scss';
 import { Dispatch } from 'redux';

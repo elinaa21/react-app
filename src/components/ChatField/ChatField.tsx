@@ -5,7 +5,7 @@ import ActiveUser from '../ActiveUser/ActiveUser';
 import MessagesField from '../MessagesField/MessagesField';
 import SendMessageForm from '../SendMessageForm/SendMessageForm';
 import { cn } from '../../modules/cn';
-import { IChatState } from '../../redux/auth/reducers';
+import { IChatState } from '../../redux/chat/reducers';
 
 import './ChatField.scss';
 

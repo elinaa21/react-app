@@ -40,7 +40,6 @@ class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
     }
 
     render(): JSX.Element {
-        console.log(this.state.message);
         return (
             <div className={classNames.messageFormContainer}>
                 <textarea 
