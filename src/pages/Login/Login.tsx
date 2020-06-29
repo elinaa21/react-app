@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { cn } from '../../modules/cn';
 import { required, maxLength25, minLength4, alphaNumeric } from '../../modules/validator';
 import Input from '../../components/Input/Input';
-import { IChatState } from '../../redux/auth/reducers';
+import { IAuthState } from '../../redux/auth/reducers';
 import { IActionType, loginThunk } from '../../redux/auth/actions';
 
 import './Login.scss';
@@ -123,12 +123,12 @@ const LoginReduxForm = reduxForm({
     form: 'login'
 })(Login)
 
-const mapStateToProps = (state: {auth: IChatState}): ILoginProps => ({
+const mapStateToProps = (state: {auth: IAuthState}): ILoginProps => ({
     isAuth: state.auth.isAuth,
     loginError: state.auth.loginError,
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<IChatState, {}, Action<IActionType>>): {} => ({ 
+const mapDispatchToProps = (dispatch: ThunkDispatch<IAuthState, {}, Action<IActionType>>): {} => ({ 
     loginThunk: (login: string, password: string): void => loginThunk(login, password, dispatch)
 });
 

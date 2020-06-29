@@ -24,7 +24,7 @@ const initialState: IAuthState = {
     registerError: false
 };
 
-export const authReducer = (state = initialState, action: IActionType): IChatState => {
+export const authReducer = (state = initialState, action: IActionType): IAuthState => {
     switch (action.type) {
         case actionTypes.SET_LOADING: 
             return {

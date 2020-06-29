@@ -17,9 +17,18 @@
     }
 
     &__button {
+        background: transparent;
+        border: none;
+        font-size: 100%;
         font-family: inherit;
         margin-right: 4%;
         cursor: pointer;
         color: #7922A3;
+        outline: none;
+
+        &:disabled {
+            color: rgba(97, 97, 97, 0.822);
+            cursor: default;
+        }
     }
 }

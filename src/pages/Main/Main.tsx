@@ -8,7 +8,7 @@ import ChatField from '../../components/ChatField/ChatField';
 import ContactsField from '../../components/ContactsField/ContactsField';
 import Loader from '../../components/Loader/Loader';
 import { cn } from '../../modules/cn';
-import { IChatState } from '../../redux/auth/reducers';
+import { IAuthState } from '../../redux/auth/reducers';
 import { IActionType, logOutThunk } from '../../redux/auth/actions';
 
 import './Main.scss';
@@ -54,7 +54,7 @@ class Main extends React.Component<IMainProps, {}> {
     }
 }
 
-const mapStateToProps = (state: {auth: IChatState}): IMainProps => {
+const mapStateToProps = (state: {auth: IAuthState}): IMainProps => {
     return {
         isLoading: state.auth.isLoading,
         isAuth: state.auth.isAuth,
@@ -62,7 +62,7 @@ const mapStateToProps = (state: {auth: IChatState}): IMainProps => {
     };
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<IChatState, {}, Action<IActionType>>): {} => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<IAuthState, {}, Action<IActionType>>): {} => {
     return {
         logOut: (): void => logOutThunk(dispatch)
     }

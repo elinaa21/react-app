@@ -13,17 +13,22 @@ const classNames = {
 
 interface ISendMessageFormState {
     message: string;
-    chat: Array<Record<string,string>>;
+    disableButton: boolean;
 }
 
 class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
     constructor(props: {}) {
         super(props);
-        this.state = { message: '', chat: [] };
+        this.state = { message: '', disableButton: true };
     }
 
     onTextChange = (e: React.SyntheticEvent<EventTarget>): void => {
         this.setState({ message: (e.target as HTMLInputElement).value });
+        if (/\s*\S+.*/.test(this.state.message)) {
+            this.setState({disableButton: false});
+        } else {
+            this.setState({disableButton: true});
+        }
     };
 
     onMessageSubmit = (): void => {
@@ -50,9 +55,9 @@ class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
                     value={this.state.message}
                     onKeyPress={this.handleKeyPress} 
                 />
-                <span className={classNames.messageFormContainerButton} onClick={this.onMessageSubmit}>
+                <button disabled={this.state.disableButton} className={classNames.messageFormContainerButton} onClick={this.onMessageSubmit}>
                     SEND
-                </span>
+                </button>
             </div>
         );
     }

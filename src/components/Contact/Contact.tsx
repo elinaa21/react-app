@@ -30,7 +30,6 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
     private setActiveUser = (): void => {
         const name = this.props.name;
         this.props.setCurrentTargetUser(name);
-        console.log(this.props.currentTargetUser);
     }
 
     render(): JSX.Element {

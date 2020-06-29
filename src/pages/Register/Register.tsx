@@ -6,7 +6,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 
 import { cn } from '../../modules/cn';
-import { IChatState } from '../../redux/auth/reducers';
+import { IAuthState } from '../../redux/auth/reducers';
 import { IActionType, registerThunk } from '../../redux/auth/actions';
 import { required, maxLength25, minLength4, alphaNumeric, matchPassword } from '../../modules/validator';
 import Input from '../../components/Input/Input';
@@ -134,12 +134,12 @@ const RegisterReduxForm = reduxForm({
     form: 'register'
 })(Register)
 
-const mapStateToProps = (state: { auth: IChatState}): IRegisterProps => ({
+const mapStateToProps = (state: { auth: IAuthState}): IRegisterProps => ({
     isAuth: state.auth.isAuth,
     registerError: state.auth.registerError
 })
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<IChatState, {}, Action<IActionType>>): {} => ({ 
+const mapDispatchToProps = (dispatch: ThunkDispatch<IAuthState, {}, Action<IActionType>>): {} => ({ 
     registerThunk: (login: string, password: string): void => registerThunk(login, password, dispatch)
 });
 
