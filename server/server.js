@@ -12,6 +12,7 @@ ws.listen(777);
 
 const userNameToId = {};
 const anonyms = {};
+const pendingMessages = {};
 
 io.sockets.on('connection', function (socket) {
     console.log('connected');
@@ -20,21 +21,48 @@ io.sockets.on('connection', function (socket) {
     console.log(`User connected: ${id}`);
     anonyms[id] = true;
 
-    socket.on('chatMessage', message => {
-        console.log(`${id}: ${message}`);
-        io.emit('chatMessage', message);
+    socket.on('chatMessage', payload => {
+        const targetId = userNameToId[payload.to];
+        if (!targetId) {
+            const queue = pendingMessages[payload.to];
+            if (!queue) {
+                pendingMessages[payload.to] = [ payload ]
+            } else {
+                pendingMessages[payload.to].push(payload);
+            }
+
+            Object.keys(anonyms).forEach((id) => {
+                io.to(id).emit('who');
+
+            });
+            return;
+
+        }
+        io.to(targetId).emit('chatMessage', payload);
+        // io.emit('chatMessage', message);
+        // socket.to()
+    });
+
+    socket.on('who', userName => {
+        delete anonyms[id];
+        userNameToId[userName] = id;
+        const queue = pendingMessages[userName];
+        if (queue) {
+            queue.forEach((payload) => {
+                io.to(id).emit('chatMessage', payload);
+            });
+        }
     });
 
     socket.on('match', userName => {
         delete anonyms[id];
-        console.log(userName);
+        // console.log(userName);
         if (!userNameToId[userName]) {
             userNameToId[userName] = [id];
             return;
         }
         userNameToId[userName].push(id);
     });
-    // socket.broadcast.to()
 
     socket.on('disconnect', () => {
         delete anonyms[id];

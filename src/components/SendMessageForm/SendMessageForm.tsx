@@ -1,7 +1,10 @@
 import React, { KeyboardEvent } from 'react';
+import { connect } from 'react-redux';
 
 import { cn } from '../../modules/cn';
-import chatService from '../../services/chatService'
+import chatService from '../../services/chatService';
+import authService from '../../services/authService';
+import { IChatState } from '../../redux/chat/reducers';
 
 import './SendMessageForm.scss';
 
@@ -16,24 +19,28 @@ interface ISendMessageFormState {
     disableButton: boolean;
 }
 
-class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
-    constructor(props: {}) {
+interface ISendMessageFormProps {
+    currentTargetUser: string;
+}
+
+class SendMessageForm extends React.Component<ISendMessageFormProps, ISendMessageFormState> {
+    constructor(props: ISendMessageFormProps) {
         super(props);
         this.state = { message: '', disableButton: true };
     }
 
     onTextChange = (e: React.SyntheticEvent<EventTarget>): void => {
-        this.setState({ message: (e.target as HTMLInputElement).value });
-        if (/\s*\S+.*/.test(this.state.message)) {
-            this.setState({disableButton: false});
+        const message = (e.target as HTMLInputElement).value;
+        if (message.replace(/\s*/g, '')) {
+            this.setState({ message, disableButton: false });
         } else {
-            this.setState({disableButton: true});
+            this.setState({ message, disableButton: true });
         }
     };
 
     onMessageSubmit = (): void => {
         if (this.state.message === '') return;
-        chatService.sendMessage(this.state.message);
+        chatService.sendMessage(this.state.message, authService.userName, this.props.currentTargetUser );
         this.setState({message: ''})
     }
 
@@ -51,7 +58,7 @@ class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
                     className={classNames.messageFormContainerText} 
                     placeholder="Type your message" 
                     rows={3}
-                    onChange={(e): void => this.onTextChange(e)}
+                    onChange={this.onTextChange}
                     value={this.state.message}
                     onKeyPress={this.handleKeyPress} 
                 />
@@ -63,5 +70,8 @@ class SendMessageForm extends React.Component<{}, ISendMessageFormState> {
     }
 }
 
+const mapStateToProps = (state: {chat: IChatState}): ISendMessageFormProps => ({
+    currentTargetUser: state.chat.currentTargetUser
+})
 
-export default SendMessageForm;
+export default connect(mapStateToProps)(SendMessageForm);

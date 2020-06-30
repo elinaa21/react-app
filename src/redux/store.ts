@@ -1,6 +1,7 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import authService from '../services/authService';
+import chatService from '../services/chatService';
 import { setUserData, setLoading } from './auth/actions';
 import { authReducer } from './auth/reducers';
 import { chatReducer } from './chat/reducers';
@@ -20,7 +21,7 @@ if (answer instanceof Promise) {
     store.dispatch(setLoading());
     answer.then(result => {
         if (result.isAuth) {
-            //тут тоже мэтч
+            chatService.matchUserName(result.userName);
             store.dispatch(setUserData(result.userName, true));
         } else {
             store.dispatch(setUserData('', false));
@@ -28,7 +29,7 @@ if (answer instanceof Promise) {
     });
 } else {
     if (answer.isAuth) {
-        //вот здесь мэтч
+        chatService.matchUserName(answer.userName);
         store.dispatch(setUserData(answer.userName, true));
     } else {
         store.dispatch(setUserData('', false));
