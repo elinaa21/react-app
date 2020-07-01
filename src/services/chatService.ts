@@ -1,12 +1,26 @@
 import io from 'socket.io-client';
 import authService from '../services/authService'
+import store from '../redux/store';
+import { setUnreadMessage } from '../redux/chat/actions';
 
+interface IMessagePayload {
+    from: string;
+    to: string;
+    message: string;
+}
 
 class ChatService {
     private socket = io.connect('http://localhost:777');
 
     constructor() {
-        this.socket.on('chatMessage', (message: string) => console.log(message));
+        this.socket.on('chatMessage', (payload: IMessagePayload) => {
+            console.log(payload);
+            if (payload.from !== store.getState().chat.currentTargetUser) {
+                if (!store.getState().chat.unreadMessages.includes(payload.from)) {
+                    store.dispatch(setUnreadMessage(payload.from));
+                }
+            }
+        });
         this.socket.on('who', () => this.socket.emit('who', authService.userName));
     }
 

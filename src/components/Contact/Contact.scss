@@ -46,3 +46,16 @@
         }
     }
 }
+
+.unread-message {
+    width: 10%;
+    height: 20%;
+    margin-right: 10%;
+    margin-left: auto;
+    background: url(../../img/unread.png);
+    background: {
+        size: 40%;
+        position: center;
+        repeat: no-repeat;
+    }
+}
