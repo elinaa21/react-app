@@ -35,12 +35,38 @@ io.sockets.on('connection', function (socket) {
                 io.to(id).emit('who');
 
             });
-            return;
-
         }
-        io.to(targetId).emit('chatMessage', payload);
-        // io.emit('chatMessage', message);
-        // socket.to()
+        
+        mongoClient.connect(mongoURL, (err, db) => {
+            if (err) return;
+            
+            const database = db.db('test');
+            const dialogName = payload.from < payload.to ? 
+            `${payload.from}-${payload.to}` 
+            : `${payload.to}-${payload.from}`;
+            console.log(dialogName);
+            database.collection('dialogs').findOne({ name: dialogName }, (err, result) => {
+                if (err) return;
+                console.log(result);
+
+                if (result) {
+                    database.collection(dialogName).insertOne({ from: payload.from, 
+                        to: payload.to, message: payload.message, date: payload.date });
+                } else {
+                    database.collection('dialogs').insertOne({ name: dialogName }, (err) => {
+                        if (err) {
+                            return;
+                        } else {
+                            database.createCollection(dialogName);
+                            database.collection(dialogName).insertOne({ from: payload.from, 
+                                to: payload.to, message: payload.message, date: payload.date });
+                        }
+                    });
+                }
+            });
+        });
+
+        // io.to(targetId).emit('chatMessage', payload);
     });
 
     socket.on('who', userName => {
@@ -56,7 +82,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('match', userName => {
         delete anonyms[id];
-        // console.log(userName);
         if (!userNameToId[userName]) {
             userNameToId[userName] = [id];
             return;
@@ -222,6 +247,68 @@ app.delete('/api/login', (req, res) => {
 	res.json({
 		message: 'bye'
 	});
+});
+
+app.get('/api/messages', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.set('Access-Control-Allow-Credentials', 'true');
+    if (!req.query || !req.query.target) {
+        res.status(RESPONSE_CODES.FORBIDDEN);
+        res.json({ message: 'wrong request body format' });
+        return;
+    }
+
+    let sessionId;
+    const cookies = req.get('Cookie');
+    if (cookies) {
+        const cookie = cookies.split(';')[0];
+        sessionId = cookie.split('=')[1];
+        mongoClient.connect(mongoURL, (err, db) => {
+            if (err) {
+                res.status(RESPONSE_CODES.SERVER_ERROR);
+                res.json({ message: 'internal error' });
+                return;
+            }
+    
+            const database = db.db('test');
+            database.collection('sessions').findOne({ sessionId }, (err, result) => {
+                if (err) {
+                    res.status(RESPONSE_CODES.SERVER_ERROR);
+                    res.json({ message: 'internal error' });
+                    return;
+                }
+    
+                if (result && result.login) {
+                    res.status(RESPONSE_CODES.OK);
+                    const dialogName = result.login < req.query.target ? 
+                    `${result.login}-${req.query.target}` 
+                    : `${req.query.target}-${result.login}`;
+                    database.collection('dialogs').findOne({ name: dialogName }, (err, result) => {
+                        if (err) return;
+        
+                        if (result) {
+                            database.collection(dialogName).find().toArray()
+                                .then(messages => {
+                                    res.status(RESPONSE_CODES.OK);
+                                    res.json({ messages, count: messages.length });
+                                });
+                        } else {
+                            res.status(RESPONSE_CODES.OK);
+                            res.json({ messages: [], count: 0 });
+                        }
+                    });
+                } else {
+                    res.status(RESPONSE_CODES.FORBIDDEN);
+                    res.json({ message: 'invalid cookie' });
+                    return;
+                }
+            });
+        });
+    } else {
+        res.status(RESPONSE_CODES.FORBIDDEN);
+        res.json({ message: 'invalid cookie' });
+        return;
+    }
 });
 
 app.listen(8000, () => console.log('Server running on http://localhost:8000'));

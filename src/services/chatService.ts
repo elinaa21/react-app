@@ -29,8 +29,8 @@ class ChatService {
     }
 
     public sendMessage = (message: string, from: string, to: string): void => {
-        console.log(from);
-        this.socket.emit('chatMessage', { from, to, message });
+        const date = new Date();
+        this.socket.emit('chatMessage', { from, to, message, date });
     };
 }
 
