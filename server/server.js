@@ -44,10 +44,8 @@ io.sockets.on('connection', function (socket) {
             const dialogName = payload.from < payload.to ? 
             `${payload.from}-${payload.to}` 
             : `${payload.to}-${payload.from}`;
-            console.log(dialogName);
             database.collection('dialogs').findOne({ name: dialogName }, (err, result) => {
                 if (err) return;
-                console.log(result);
 
                 if (result) {
                     database.collection(dialogName).insertOne({ from: payload.from, 

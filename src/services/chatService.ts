@@ -32,6 +32,17 @@ class ChatService {
         const date = new Date();
         this.socket.emit('chatMessage', { from, to, message, date });
     };
+
+    public getMessages = (target: string): Promise<Response> => {
+        const url = `http://localhost:8000/api/messages?target=${target}`;
+        const options: RequestInit = {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            headers: { Host: 'localhost' },
+        };
+        return fetch(url, options);
+    }
 }
 
 

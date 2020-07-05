@@ -1,12 +1,13 @@
 import React from 'react';
-import { cn } from '../../modules/cn';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { setCurrentTargetUser, IActionType, deleteUnreadMessage } from '../../redux/chat/actions';
+import { setCurrentTargetUser, IActionType, deleteUnreadMessage, setMessages } from '../../redux/chat/actions';
 import { IChatState } from '../../redux/chat/reducers';
+import { cn } from '../../modules/cn';
+import chatService from '../../services/chatService';
 
 import './Contact.scss';
-import { Dispatch } from 'redux';
 
 const classNames = {
     contact: cn('contact'),
@@ -27,6 +28,7 @@ interface IContactReduxProps {
     unreadMessages: Array<string>;
     setCurrentTargetUser?: (currentTargetUser: string) => IActionType;
     deleteUnreadMessage?: (from: string) => IActionType;
+    setMessages?: (messages: Array<Record<string, string|Date>>, count: number) => IActionType;
 }
 
 class Contact extends React.Component<IContactProps & IContactReduxProps> {
@@ -36,6 +38,12 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
         if (this.props.unreadMessages.includes(name)) {
             this.props.deleteUnreadMessage(name);
         }
+        chatService.getMessages(this.props.name)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res.count);
+                this.props.setMessages(res.messages, res.count);
+            });
     }
 
     render(): JSX.Element {
@@ -63,7 +71,8 @@ const mapStateToProps = (state: {chat: IChatState}): IContactReduxProps => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<IActionType>): {} => ({ 
     setCurrentTargetUser: (currentTargetUser: string): IActionType => dispatch(setCurrentTargetUser(currentTargetUser)),
-    deleteUnreadMessage: (from: string): IActionType => dispatch(deleteUnreadMessage(from))
+    deleteUnreadMessage: (from: string): IActionType => dispatch(deleteUnreadMessage(from)),
+    setMessages: (messages: Array<Record<string, string>>, count: number): IActionType => dispatch(setMessages(messages, count))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contact);

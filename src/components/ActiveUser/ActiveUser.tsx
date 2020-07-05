@@ -14,27 +14,26 @@ const classNames = {
     starImg: cn('star-img'),
 }
 
-interface ActiveUserProps {
-    messages: number;
-}
 
-interface IActiveUserReduxProps {
+interface IActiveUserProps {
     name: string;
+    count: number;
 }
 
-const ActiveUser: React.FC<ActiveUserProps> = (props: ActiveUserProps & IActiveUserReduxProps) => (
+const ActiveUser: React.FC<IActiveUserProps> = (props: IActiveUserProps) => (
     <div className={classNames.activeUser}>
         <div className={classNames.activeUserImg} />
         <div className={classNames.activeUserInfo}>
             <span>Chat with {props.name}</span>
-            <span className={classNames.activeUserMessages}> already {props.messages} messages</span>
+            <span className={classNames.activeUserMessages}> already {props.count} messages</span>
         </div>
         <div className={classNames.starImg} />
     </div>
 );
 
-const mapStateToProps = (state: {chat: IChatState}): IActiveUserReduxProps => ({
-    name: state.chat.currentTargetUser
+const mapStateToProps = (state: {chat: IChatState}): IActiveUserProps => ({
+    name: state.chat.currentTargetUser,
+    count: state.chat.count
 });
 
 export default connect(mapStateToProps)(ActiveUser);

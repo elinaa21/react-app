@@ -24,7 +24,7 @@ const ChatField: React.FC<IChatFieldProps> = (props: IChatFieldProps) => {
             <div className={classNames.containerChat}>
                 { props.activeUser ?
                     <>
-                        <ActiveUser messages = {105000} />
+                        <ActiveUser />
                         <MessagesField />
                         <SendMessageForm />
                     </>

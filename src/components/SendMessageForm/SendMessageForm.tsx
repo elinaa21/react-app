@@ -41,7 +41,7 @@ class SendMessageForm extends React.Component<ISendMessageFormProps, ISendMessag
     onMessageSubmit = (): void => {
         if (this.state.message === '') return;
         chatService.sendMessage(this.state.message, authService.userName, this.props.currentTargetUser );
-        this.setState({message: ''})
+        this.setState({message: ''});
     }
 
     private handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>): void => {

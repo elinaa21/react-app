@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Message from '../Message/Message';
 import { cn } from '../../modules/cn';
+import { IChatState } from '../../redux/chat/reducers';
 
 import './MessagesField.scss';
 
@@ -9,13 +11,23 @@ const classNames = {
     containerMessages: cn('container-messages'),
 };
 
-const MessagesField: React.FC = () => (
-    <div className={classNames.containerMessages}>
-        <Message name='Elinaaa' message='Я очень сильно врать, как я сильно люблю Игоря' from='me' />
-        <Message name='Elinaaa' message ='я не очень сильно люблю Игоря' from='me' />
-        <Message name='Igorrrr' message ='я очень сильно люблю елину' from='them' />
-        <Message name='Igorrrr' message ='я вообще сильно люблю елину!!!' from='them' />
-    </div>
-);
+interface IMessagesFieldProps {
+    messages: Array<Record<string, string>>;
+    count: number;
+}
 
-export default MessagesField;
+const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps) => {
+    const allMessages = props.messages.map(msg => <Message key={msg.id} name={msg.from} message={msg.message} from='me' />);
+    return (
+        <div className={classNames.containerMessages}>
+            { allMessages }
+        </div>
+    );
+}
+
+const mapStateToProps = (state: {chat: IChatState}): IMessagesFieldProps => ({
+    messages: state.chat.messages,
+    count: state.chat.count
+});
+
+export default connect(mapStateToProps)(MessagesField);

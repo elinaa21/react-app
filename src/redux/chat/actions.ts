@@ -5,6 +5,8 @@ interface IPayload {
     currentTargetUser?: string;
     from?: string;
     arrFrom?: Array<string>;
+    messages?: Array<Record<string, string>>;
+    count?: number;
 }
 
 export interface IActionType {
@@ -31,3 +33,8 @@ export const deleteUnreadMessage = (from: string): IActionType => {
         payload: { arrFrom }
     }
 }
+
+export const setMessages = (messages: Array<Record<string, string>>, count: number): IActionType => ({
+    type: actionTypes.SET_MESSAGES,
+    payload: { messages, count }
+})
