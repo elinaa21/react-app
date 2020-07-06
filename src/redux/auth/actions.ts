@@ -30,7 +30,7 @@ export const logOutThunk = (dispatch: Dispatch<IActionType>): void => {
 
 export const loginThunk = (login: string, password: string, dispatch: Dispatch<IActionType>): void => {
     authService.login(login, password)
-        .then((answer: Response) => {
+        .then((answer: { status: number }) => {
             if (answer.status === 200) {
                 dispatch(setUserData(login, true));
             } else {

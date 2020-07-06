@@ -63,8 +63,6 @@ io.sockets.on('connection', function (socket) {
                 }
             });
         });
-
-        // io.to(targetId).emit('chatMessage', payload);
     });
 
     socket.on('who', userName => {
@@ -90,6 +88,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('disconnect', () => {
         delete anonyms[id];
         Object.keys(userNameToId).forEach((userName) => {
+            if (!userNameToId[userName]) return;
             userNameToId[userName] = userNameToId[userName].filter((_id) => _id !== id);
         });
         console.log('disconnected');

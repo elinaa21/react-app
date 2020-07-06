@@ -14,10 +14,18 @@ const classNames = {
 interface IMessagesFieldProps {
     messages: Array<Record<string, string>>;
     count: number;
+    currentTargetUser: string;
 }
 
 const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps) => {
-    const allMessages = props.messages.map(msg => <Message key={msg.id} name={msg.from} message={msg.message} from='me' />);
+    const allMessages = props.messages.map(msg => 
+        <Message 
+            key={msg.id} 
+            name={msg.from} 
+            message={msg.message} 
+            from={msg.from === props.currentTargetUser ? 'them' : 'me'}
+            date={msg.date.slice(0, 16).replace('T', ' ')}
+        />);
     return (
         <div className={classNames.containerMessages}>
             { allMessages }
@@ -27,7 +35,8 @@ const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps
 
 const mapStateToProps = (state: {chat: IChatState}): IMessagesFieldProps => ({
     messages: state.chat.messages,
-    count: state.chat.count
+    count: state.chat.count,
+    currentTargetUser: state.chat.currentTargetUser
 });
 
 export default connect(mapStateToProps)(MessagesField);
