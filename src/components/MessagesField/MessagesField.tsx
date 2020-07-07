@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Message from '../Message/Message';
@@ -17,6 +17,7 @@ interface IMessagesFieldProps {
     currentTargetUser: string;
 }
 
+
 const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps) => {
     const allMessages = props.messages.map(msg => 
         <Message 
@@ -27,9 +28,18 @@ const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps
             date={msg.date.slice(0, 16).replace('T', ' ')}
         />
     );
+    const messagesEndRef = useRef(null)
+    const scrollToBottom = (): void => {
+        messagesEndRef.current && messagesEndRef.current.scrollIntoView(false);
+    };
+    useEffect( () => {
+        scrollToBottom()
+    }, [allMessages]);
+
     return (
-        <div className={classNames.containerMessages}>
+        <div className={classNames.containerMessages} >
             { allMessages }
+            <div ref={messagesEndRef}></div>
         </div>
     );
 }
