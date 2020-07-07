@@ -79,10 +79,11 @@ $violet: rgba(120, 34, 163, 0.753);
 .message__date {
     color: rgba(88, 88, 88, 0.616);
     font-weight: 300;
-    padding-right: 3px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 1px;
 }
 
 .message__name {
     color: rgba(34, 0, 43, 0.884);
-    padding-right: 3px;
 }

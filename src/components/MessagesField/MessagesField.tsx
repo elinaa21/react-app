@@ -25,7 +25,8 @@ const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps
             message={msg.message} 
             from={msg.from === props.currentTargetUser ? 'them' : 'me'}
             date={msg.date.slice(0, 16).replace('T', ' ')}
-        />);
+        />
+    );
     return (
         <div className={classNames.containerMessages}>
             { allMessages }
