@@ -9,12 +9,12 @@ export const minLength4 = (value: string): string|undefined =>
 
 
 export const alphaNumeric = (value: string): string|undefined =>
-  value && /[^a-zA-Z0-9 ]/i.test(value)
-    ? 'Only latin characters'
-    : undefined
+    value && /[^a-zA-Z0-9 ]/i.test(value)
+        ? 'Only latin characters'
+        : undefined
 
 export const matchPassword = (value: string, allValues: Record<string,string>): string|undefined =>
     value !== allValues.password
-      ? 'This field must match with your password field'
-      : undefined;
+        ? 'This field must match with your password field'
+        : undefined;
       

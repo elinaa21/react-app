@@ -20,7 +20,7 @@ interface IMessagesFieldProps {
 const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps) => {
     const allMessages = props.messages.map(msg => 
         <Message 
-            key={msg.id} 
+            key={msg._id} 
             name={msg.from} 
             message={msg.message} 
             from={msg.from === props.currentTargetUser ? 'them' : 'me'}

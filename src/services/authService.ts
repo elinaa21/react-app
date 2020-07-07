@@ -33,7 +33,7 @@ class AuthService {
 
     public login(login: string, password: string): Promise<{ status: number }> {
         return this.sendRequest('/login', 'POST', { login, password })
-            .then((response) => {
+            .then(response => {
                 console.log('login = ' + response.status);
                 return response.json();
             })
@@ -44,8 +44,16 @@ class AuthService {
             });
     }
 
-    public register(login: string, password: string): Promise<Response> {
-        return this.sendRequest('/register', 'POST', { login, password });
+    public register(login: string, password: string): Promise<{ status: number }> {
+        return this.sendRequest('/register', 'POST', { login, password })
+            .then(response => {
+                return response.json();
+            })
+            .then(res => {
+                this.userName = res.login || '';
+                this.isAuth = Boolean(this.userName);
+                return { status: this.isAuth ? 200 : 403 };
+            })
     }
 
     public getAuthData(): Promise<IAuthData> | IAuthData {

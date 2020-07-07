@@ -14,7 +14,6 @@ class ChatService {
 
     constructor() {
         this.socket.on('chatMessage', (payload: IMessagePayload) => {
-            console.log(payload);
             if (payload.from !== store.getState().chat.currentTargetUser) {
                 if (!store.getState().chat.unreadMessages.includes(payload.from)) {
                     store.dispatch(setUnreadMessage(payload.from));

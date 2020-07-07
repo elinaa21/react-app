@@ -41,7 +41,6 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
         chatService.getMessages(this.props.name)
             .then(res => res.json())
             .then(res => {
-                console.log(res.count);
                 this.props.setMessages(res.messages, res.count);
             });
     }

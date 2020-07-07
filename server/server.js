@@ -63,6 +63,8 @@ io.sockets.on('connection', function (socket) {
                 }
             });
         });
+        
+        io.to(targetId).emit('chatMessage', payload);
     });
 
     socket.on('who', userName => {

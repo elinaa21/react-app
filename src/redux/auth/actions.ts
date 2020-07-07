@@ -41,7 +41,7 @@ export const loginThunk = (login: string, password: string, dispatch: Dispatch<I
 
 export const registerThunk = (login: string, password: string, dispatch: Dispatch<IActionType>): void => {
     authService.register(login, password)
-    .then((answer: Response) => {
+    .then((answer: { status: number }) => {
         if (answer.status === 200) {
             dispatch(setUserData(login, true));
         } else {
