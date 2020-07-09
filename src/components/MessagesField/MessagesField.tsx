@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Message from '../Message/Message';
 import { cn } from '../../modules/cn';
+import { dn } from '../../modules/dn';
 import { IChatState } from '../../redux/chat/reducers';
 import { IPayload } from '../../redux/chat/actions';
 import authService from '../../services/authService';
@@ -21,9 +22,7 @@ interface IMessagesFieldProps {
 
 const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps) => {
     let allMessages = null;
-    const dialogName = authService.userName < props.currentTargetUser ? 
-            `${authService.userName}-${props.currentTargetUser}`:
-            `${props.currentTargetUser}-${authService.userName}`;
+    const dialogName = dn(authService.userName, props.currentTargetUser);
     if (props.dialogs[dialogName]) {
         allMessages = props.dialogs[dialogName].map(msg => 
             <Message 

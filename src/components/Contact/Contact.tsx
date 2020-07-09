@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { setCurrentTargetUser, IActionType, deleteUnreadMessage, setDialog, IPayload } from '../../redux/chat/actions';
 import { IChatState } from '../../redux/chat/reducers';
 import { cn } from '../../modules/cn';
+import { dn } from '../../modules/dn';
 import chatService from '../../services/chatService';
 import authService from '../../services/authService';
 
@@ -40,9 +41,7 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
             this.props.deleteUnreadMessage(name);
         }
 
-        const dialogName = authService.userName < name ? 
-            `${authService.userName}-${name}` :
-            `${name}-${authService.userName}`;
+        const dialogName = dn(authService.userName, name);
         if (!this.props.dialogs[dialogName]) {
             chatService.getMessages(name)
             .then(res => res.json())

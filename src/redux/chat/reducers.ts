@@ -1,4 +1,5 @@
 import { IActionType, IPayload } from './actions';
+import { dn } from '../../modules/dn';
 
 export const actionTypes = {
     SET_CURRENT_TARGET_USER: 'SET_CURRENT_TARGET_USER',
@@ -50,9 +51,7 @@ export const chatReducer = (state = initialState, action: IActionType): IChatSta
             }
 
         case actionTypes.SET_MESSAGE:
-            const dialogName = action.payload.from < action.payload.to ? 
-                `${action.payload.from}-${action.payload.to}` :
-                `${action.payload.to}-${action.payload.from}`;
+            const dialogName = dn(action.payload.from, action.payload.to);
             if (state.dialogs[dialogName]) {
                 state.dialogs[dialogName] = [ ...state.dialogs[dialogName], action.payload ];
             } else {

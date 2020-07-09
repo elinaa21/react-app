@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { cn } from '../../modules/cn';
+import { dn } from '../../modules/dn';
 import { IChatState } from '../../redux/chat/reducers';
 import { IPayload } from '../../redux/chat/actions';
 import authService from '../../services/authService';
@@ -23,10 +24,8 @@ interface IActiveUserProps {
 }
 
 const ActiveUser: React.FC<IActiveUserProps> = (props: IActiveUserProps) => {
-    const dialogName = authService.userName < props.name ? 
-        `${authService.userName}-${props.name}` :
-        `${props.name}-${authService.userName}`;
-        
+    const dialogName = dn(authService.userName, props.name);
+
     return (
         <div className={classNames.activeUser}>
             <div className={classNames.activeUserImg} />
