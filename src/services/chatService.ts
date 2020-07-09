@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import authService from '../services/authService'
 import store from '../redux/store';
-import { setUnreadMessage } from '../redux/chat/actions';
+import { setUnreadMessage, setMessage, setDialog } from '../redux/chat/actions';
 
 interface IMessagePayload {
     from: string;
@@ -18,6 +18,19 @@ class ChatService {
                 if (!store.getState().chat.unreadMessages.includes(payload.from)) {
                     store.dispatch(setUnreadMessage(payload.from));
                 }
+            }
+
+            const dialogName = payload.from < payload.to ? 
+            `${payload.from}-${payload.to}` 
+            : `${payload.to}-${payload.from}`;
+            if (!store.getState().chat.dialogs[dialogName]) {
+                this.getMessages(payload.from)
+                .then(res => res.json())
+                .then(res => {
+                    store.dispatch(setDialog(dialogName, res.messages));
+                })
+            } else {
+                store.dispatch(setMessage(payload.from, payload.to, payload.message));
             }
         });
         this.socket.on('who', () => this.socket.emit('who', authService.userName));
@@ -43,6 +56,5 @@ class ChatService {
         return fetch(url, options);
     }
 }
-
 
 export default new ChatService();

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Message from '../Message/Message';
 import { cn } from '../../modules/cn';
 import { IChatState } from '../../redux/chat/reducers';
+import { IPayload } from '../../redux/chat/actions';
+import authService from '../../services/authService';
 
 import './MessagesField.scss';
 
@@ -12,30 +14,36 @@ const classNames = {
 };
 
 interface IMessagesFieldProps {
-    messages: Array<Record<string, string>>;
-    count: number;
+    dialogs: Record<string,Array<IPayload>>;
     currentTargetUser: string;
 }
 
 
 const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps) => {
-    const allMessages = props.messages.map(msg => 
-        <Message 
-            key={msg._id} 
-            name={msg.from} 
-            message={msg.message} 
-            from={msg.from === props.currentTargetUser ? 'them' : 'me'}
-            date={msg.date.slice(0, 16).replace('T', ' ')}
-        />
-    );
+    let allMessages = null;
+    const dialogName = authService.userName < props.currentTargetUser ? 
+            `${authService.userName}-${props.currentTargetUser}` 
+            : `${props.currentTargetUser}-${authService.userName}`;
+    if (props.dialogs[dialogName]) {
+        allMessages = props.dialogs[dialogName].map(msg => 
+            <Message 
+                key={msg._id} 
+                name={msg.from} 
+                message={msg.message} 
+                from={msg.from === props.currentTargetUser ? 'them' : 'me'}
+                date={msg.date.slice(0, 16).replace('T', ' ')}
+            />
+        );
+    }
+    
     const messagesEndRef = useRef(null)
     const scrollToBottom = (): void => {
-        messagesEndRef.current && messagesEndRef.current.scrollIntoView(false);
+        messagesEndRef.current && messagesEndRef.current.scrollIntoView();
     };
     useEffect( () => {
         scrollToBottom()
     }, [allMessages]);
-
+    
     return (
         <div className={classNames.containerMessages} >
             { allMessages }
@@ -45,8 +53,7 @@ const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps
 }
 
 const mapStateToProps = (state: {chat: IChatState}): IMessagesFieldProps => ({
-    messages: state.chat.messages,
-    count: state.chat.count,
+    dialogs: state.chat.dialogs,
     currentTargetUser: state.chat.currentTargetUser
 });
 

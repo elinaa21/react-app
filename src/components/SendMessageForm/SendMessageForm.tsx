@@ -1,10 +1,12 @@
 import React, { KeyboardEvent } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { cn } from '../../modules/cn';
 import chatService from '../../services/chatService';
 import authService from '../../services/authService';
 import { IChatState } from '../../redux/chat/reducers';
+import { IActionType, setMessage } from '../../redux/chat/actions';
 
 import './SendMessageForm.scss';
 
@@ -21,6 +23,7 @@ interface ISendMessageFormState {
 
 interface ISendMessageFormProps {
     currentTargetUser: string;
+    setMessage?: (from: string, to: string, message: string) => IActionType;
 }
 
 class SendMessageForm extends React.Component<ISendMessageFormProps, ISendMessageFormState> {
@@ -40,7 +43,8 @@ class SendMessageForm extends React.Component<ISendMessageFormProps, ISendMessag
 
     onMessageSubmit = (): void => {
         if (this.state.message === '') return;
-        chatService.sendMessage(this.state.message, authService.userName, this.props.currentTargetUser );
+        chatService.sendMessage(this.state.message, authService.userName, this.props.currentTargetUser);
+        this.props.setMessage(authService.userName, this.props.currentTargetUser, this.state.message);
         this.setState({message: ''});
     }
 
@@ -62,7 +66,11 @@ class SendMessageForm extends React.Component<ISendMessageFormProps, ISendMessag
                     value={this.state.message}
                     onKeyPress={this.handleKeyPress} 
                 />
-                <button disabled={this.state.disableButton} className={classNames.messageFormContainerButton} onClick={this.onMessageSubmit}>
+                <button 
+                    disabled={this.state.disableButton} 
+                    className={classNames.messageFormContainerButton} 
+                    onClick={this.onMessageSubmit}
+                >
                     SEND
                 </button>
             </div>
@@ -71,7 +79,11 @@ class SendMessageForm extends React.Component<ISendMessageFormProps, ISendMessag
 }
 
 const mapStateToProps = (state: {chat: IChatState}): ISendMessageFormProps => ({
-    currentTargetUser: state.chat.currentTargetUser
-})
+    currentTargetUser: state.chat.currentTargetUser,
+});
 
-export default connect(mapStateToProps)(SendMessageForm);
+const mapDispatchToProps = (dispatch: Dispatch<IActionType>): {} => ({
+    setMessage: (from: string, to: string, message: string): IActionType => dispatch(setMessage(from, to, message)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SendMessageForm);

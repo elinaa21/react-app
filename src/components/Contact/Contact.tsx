@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { setCurrentTargetUser, IActionType, deleteUnreadMessage, setMessages } from '../../redux/chat/actions';
+import { setCurrentTargetUser, IActionType, deleteUnreadMessage, setDialog, IPayload } from '../../redux/chat/actions';
 import { IChatState } from '../../redux/chat/reducers';
 import { cn } from '../../modules/cn';
 import chatService from '../../services/chatService';
+import authService from '../../services/authService';
 
 import './Contact.scss';
 
@@ -24,11 +25,11 @@ interface IContactProps {
 }
 
 interface IContactReduxProps {
-    currentTargetUser: string;
     unreadMessages: Array<string>;
+    dialogs: Record<string,Array<IPayload>>;
     setCurrentTargetUser?: (currentTargetUser: string) => IActionType;
     deleteUnreadMessage?: (from: string) => IActionType;
-    setMessages?: (messages: Array<Record<string, string|Date>>, count: number) => IActionType;
+    setDialog?: (userName: string, messages: Array<Record<string, string>>) => IActionType;
 }
 
 class Contact extends React.Component<IContactProps & IContactReduxProps> {
@@ -38,11 +39,17 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
         if (this.props.unreadMessages.includes(name)) {
             this.props.deleteUnreadMessage(name);
         }
-        chatService.getMessages(this.props.name)
+
+        const dialogName = authService.userName < name ? 
+            `${authService.userName}-${name}` 
+            : `${name}-${authService.userName}`;
+        if (!this.props.dialogs[dialogName]) {
+            chatService.getMessages(name)
             .then(res => res.json())
             .then(res => {
-                this.props.setMessages(res.messages, res.count);
+                this.props.setDialog(dialogName, res.messages);
             });
+        }
     }
 
     render(): JSX.Element {
@@ -64,14 +71,14 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
 }
 
 const mapStateToProps = (state: {chat: IChatState}): IContactReduxProps => ({
-    currentTargetUser: state.chat.currentTargetUser,
-    unreadMessages: state.chat.unreadMessages
+    unreadMessages: state.chat.unreadMessages,
+    dialogs: state.chat.dialogs
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<IActionType>): {} => ({ 
     setCurrentTargetUser: (currentTargetUser: string): IActionType => dispatch(setCurrentTargetUser(currentTargetUser)),
     deleteUnreadMessage: (from: string): IActionType => dispatch(deleteUnreadMessage(from)),
-    setMessages: (messages: Array<Record<string, string>>, count: number): IActionType => dispatch(setMessages(messages, count))
+    setDialog: (userName: string, messages: Array<Record<string, string>>): IActionType => dispatch(setDialog(userName, messages))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contact);

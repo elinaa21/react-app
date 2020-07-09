@@ -1,12 +1,16 @@
 import { actionTypes } from './reducers';
 import store from '../store';
 
-interface IPayload {
+export interface IPayload {
     currentTargetUser?: string;
     from?: string;
     arrFrom?: Array<string>;
     messages?: Array<Record<string, string>>;
-    count?: number;
+    dialogName?: string;
+    _id?: string;
+    to?: string;
+    message?: string;
+    date?: string;
 }
 
 export interface IActionType {
@@ -22,7 +26,7 @@ export const setCurrentTargetUser = (currentTargetUser: string): IActionType => 
 export const setUnreadMessage = (from: string): IActionType => ({
     type: actionTypes.SET_UNREAD_MESSAGE,
     payload: { from }
-})
+});
 
 export const deleteUnreadMessage = (from: string): IActionType => {
     const arrFrom = store.getState().chat.unreadMessages;
@@ -32,9 +36,18 @@ export const deleteUnreadMessage = (from: string): IActionType => {
         type: actionTypes.DELETE_UNREAD_MESSAGE,
         payload: { arrFrom }
     }
-}
+};
 
-export const setMessages = (messages: Array<Record<string, string>>, count: number): IActionType => ({
-    type: actionTypes.SET_MESSAGES,
-    payload: { messages, count }
-})
+export const setDialog = (dialogName: string, messages: Array<Record<string, string>>): IActionType => ({
+    type: actionTypes.SET_DIALOG,
+    payload: { dialogName, messages }
+});
+
+export const setMessage = (from: string, to: string, message: string): IActionType => {
+    const date = new Date().toString();
+    const _id = date + Math.floor(Math.random() * 100);
+    return {
+        type: actionTypes.SET_MESSAGE,
+        payload: { _id, from, to, message, date }
+    }
+};

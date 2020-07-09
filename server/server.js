@@ -63,7 +63,7 @@ io.sockets.on('connection', function (socket) {
                 }
             });
         });
-        
+
         io.to(targetId).emit('chatMessage', payload);
     });
 
@@ -309,5 +309,9 @@ app.get('/api/messages', (req, res) => {
         return;
     }
 });
+
+// app.get('api/contacts', (req, res) => {
+
+// ;
 
 app.listen(8000, () => console.log('Server running on http://localhost:8000'));

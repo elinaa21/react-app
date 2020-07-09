@@ -1,24 +1,23 @@
-import { IActionType } from './actions';
+import { IActionType, IPayload } from './actions';
 
 export const actionTypes = {
     SET_CURRENT_TARGET_USER: 'SET_CURRENT_TARGET_USER',
     SET_UNREAD_MESSAGE: 'SET_UNREAD_MESSAGE',
     DELETE_UNREAD_MESSAGE: 'DELETE_UNREAD_MESSAGE',
-    SET_MESSAGES: 'SET_MESSAGES'
+    SET_DIALOG: 'SET_DIALOG',
+    SET_MESSAGE: 'SET_MESSAGE',
 };
 
 export interface IChatState {
     currentTargetUser: string;
     unreadMessages: Array<string>;
-    messages: Array<Record<string, string>>;
-    count: number;
+    dialogs: Record<string,Array<IPayload>>;
 }
 
 const initialState: IChatState = {
     currentTargetUser: '',
     unreadMessages: [],
-    messages: [],
-    count: 0,
+    dialogs: {}
 };
 
 export const chatReducer = (state = initialState, action: IActionType): IChatState => {
@@ -41,11 +40,29 @@ export const chatReducer = (state = initialState, action: IActionType): IChatSta
                 unreadMessages: action.payload.arrFrom
             }
 
-        case actionTypes.SET_MESSAGES:
+        case actionTypes.SET_DIALOG:
+            state.dialogs[action.payload.dialogName] = action.payload.messages;
             return {
                 ...state,
-                messages: action.payload.messages,
-                count: action.payload.count
+                dialogs: { 
+                    ...state.dialogs
+                }
+            }
+
+        case actionTypes.SET_MESSAGE:
+            const dialogName = action.payload.from < action.payload.to ? 
+            `${action.payload.from}-${action.payload.to}` 
+            : `${action.payload.to}-${action.payload.from}`;
+                if (state.dialogs[dialogName]) {
+                    state.dialogs[dialogName] = [ ...state.dialogs[dialogName], action.payload ];
+                } else {
+                    state.dialogs[dialogName] = [ action.payload ];
+                }
+            return {
+                ...state,
+                dialogs: {
+                    ...state.dialogs
+                }
             }
 
         default:
