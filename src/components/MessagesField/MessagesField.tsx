@@ -22,8 +22,8 @@ interface IMessagesFieldProps {
 const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps) => {
     let allMessages = null;
     const dialogName = authService.userName < props.currentTargetUser ? 
-            `${authService.userName}-${props.currentTargetUser}` 
-            : `${props.currentTargetUser}-${authService.userName}`;
+            `${authService.userName}-${props.currentTargetUser}`:
+            `${props.currentTargetUser}-${authService.userName}`;
     if (props.dialogs[dialogName]) {
         allMessages = props.dialogs[dialogName].map(msg => 
             <Message 
@@ -43,7 +43,7 @@ const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps
     useEffect( () => {
         scrollToBottom()
     }, [allMessages]);
-    
+
     return (
         <div className={classNames.containerMessages} >
             { allMessages }

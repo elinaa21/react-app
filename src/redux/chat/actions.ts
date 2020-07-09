@@ -44,7 +44,7 @@ export const setDialog = (dialogName: string, messages: Array<Record<string, str
 });
 
 export const setMessage = (from: string, to: string, message: string): IActionType => {
-    const date = new Date().toString();
+    const date = JSON.stringify(new Date()).slice(1);
     const _id = date + Math.floor(Math.random() * 100);
     return {
         type: actionTypes.SET_MESSAGE,

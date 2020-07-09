@@ -21,8 +21,8 @@ class ChatService {
             }
 
             const dialogName = payload.from < payload.to ? 
-            `${payload.from}-${payload.to}` 
-            : `${payload.to}-${payload.from}`;
+                `${payload.from}-${payload.to}` :
+                `${payload.to}-${payload.from}`;
             if (!store.getState().chat.dialogs[dialogName]) {
                 this.getMessages(payload.from)
                 .then(res => res.json())

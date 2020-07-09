@@ -41,8 +41,8 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
         }
 
         const dialogName = authService.userName < name ? 
-            `${authService.userName}-${name}` 
-            : `${name}-${authService.userName}`;
+            `${authService.userName}-${name}` :
+            `${name}-${authService.userName}`;
         if (!this.props.dialogs[dialogName]) {
             chatService.getMessages(name)
             .then(res => res.json())

@@ -51,13 +51,13 @@ export const chatReducer = (state = initialState, action: IActionType): IChatSta
 
         case actionTypes.SET_MESSAGE:
             const dialogName = action.payload.from < action.payload.to ? 
-            `${action.payload.from}-${action.payload.to}` 
-            : `${action.payload.to}-${action.payload.from}`;
-                if (state.dialogs[dialogName]) {
-                    state.dialogs[dialogName] = [ ...state.dialogs[dialogName], action.payload ];
-                } else {
-                    state.dialogs[dialogName] = [ action.payload ];
-                }
+                `${action.payload.from}-${action.payload.to}` :
+                `${action.payload.to}-${action.payload.from}`;
+            if (state.dialogs[dialogName]) {
+                state.dialogs[dialogName] = [ ...state.dialogs[dialogName], action.payload ];
+            } else {
+                state.dialogs[dialogName] = [ action.payload ];
+            }   
             return {
                 ...state,
                 dialogs: {

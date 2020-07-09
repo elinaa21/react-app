@@ -24,19 +24,20 @@ interface IActiveUserProps {
 
 const ActiveUser: React.FC<IActiveUserProps> = (props: IActiveUserProps) => {
     const dialogName = authService.userName < props.name ? 
-    `${authService.userName}-${props.name}` 
-    : `${props.name}-${authService.userName}`;
-        return (
-            <div className={classNames.activeUser}>
-                <div className={classNames.activeUserImg} />
-                <div className={classNames.activeUserInfo}>
-                    <span>Chat with {props.name}</span>
-                    <span className={classNames.activeUserMessages}> 
-                        already {props.dialogs[dialogName] ? props.dialogs[dialogName].length : 0} messages
-                    </span>
-                </div>
-                <div className={classNames.starImg} />
+        `${authService.userName}-${props.name}` :
+        `${props.name}-${authService.userName}`;
+        
+    return (
+        <div className={classNames.activeUser}>
+            <div className={classNames.activeUserImg} />
+            <div className={classNames.activeUserInfo}>
+                <span>Chat with {props.name}</span>
+                <span className={classNames.activeUserMessages}> 
+                    already {props.dialogs[dialogName] ? props.dialogs[dialogName].length : 0} messages
+                </span>
             </div>
+            <div className={classNames.starImg} />
+        </div>
     );
 }
 
