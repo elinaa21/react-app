@@ -35,7 +35,7 @@ const MessagesField: React.FC<IMessagesFieldProps> = (props: IMessagesFieldProps
         );
     }
     
-    const messagesEndRef = useRef(null)
+    const messagesEndRef = useRef(null);
     const scrollToBottom = (): void => {
         messagesEndRef.current && messagesEndRef.current.scrollIntoView();
     };

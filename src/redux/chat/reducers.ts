@@ -7,18 +7,21 @@ export const actionTypes = {
     DELETE_UNREAD_MESSAGE: 'DELETE_UNREAD_MESSAGE',
     SET_DIALOG: 'SET_DIALOG',
     SET_MESSAGE: 'SET_MESSAGE',
+    SET_CONTACTS: 'SET_CONTACTS',
 };
 
 export interface IChatState {
     currentTargetUser: string;
     unreadMessages: Array<string>;
     dialogs: Record<string,Array<IPayload>>;
+    contacts: Array<Record<string, string>>;
 }
 
 const initialState: IChatState = {
     currentTargetUser: '',
     unreadMessages: [],
-    dialogs: {}
+    dialogs: {},
+    contacts: []
 };
 
 export const chatReducer = (state = initialState, action: IActionType): IChatState => {
@@ -62,6 +65,12 @@ export const chatReducer = (state = initialState, action: IActionType): IChatSta
                 dialogs: {
                     ...state.dialogs
                 }
+            }
+
+        case actionTypes.SET_CONTACTS:
+            return {
+                ...state,
+                contacts: action.payload.contacts
             }
 
         default:

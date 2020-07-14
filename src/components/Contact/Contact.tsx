@@ -44,10 +44,10 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
         const dialogName = dn(authService.userName, name);
         if (!this.props.dialogs[dialogName]) {
             chatService.getMessages(name)
-            .then(res => res.json())
-            .then(res => {
-                this.props.setDialog(dialogName, res.messages);
-            });
+                .then(res => res.json())
+                .then(res => {
+                    this.props.setDialog(dialogName, res.messages);
+                });
         }
     }
 

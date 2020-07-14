@@ -283,17 +283,21 @@ app.get('/api/messages', (req, res) => {
                     `${result.login}-${req.query.target}` 
                     : `${req.query.target}-${result.login}`;
                     database.collection('dialogs').findOne({ name: dialogName }, (err, result) => {
-                        if (err) return;
+                        if (err) {
+                            res.status(RESPONSE_CODES.SERVER_ERROR);
+                            res.json({ message: 'internal error' });
+                            return;
+                        }
         
                         if (result) {
                             database.collection(dialogName).find().toArray()
                                 .then(messages => {
                                     res.status(RESPONSE_CODES.OK);
-                                    res.json({ messages, count: messages.length });
+                                    res.json({ messages });
                                 });
                         } else {
                             res.status(RESPONSE_CODES.OK);
-                            res.json({ messages: [], count: 0 });
+                            res.json({ messages: [] });
                         }
                     });
                 } else {
@@ -310,8 +314,28 @@ app.get('/api/messages', (req, res) => {
     }
 });
 
-// app.get('api/contacts', (req, res) => {
+app.get('/api/contacts', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.set('Access-Control-Allow-Credentials', 'true');
 
-// ;
+    mongoClient.connect(mongoURL, (err, db) => {
+        if (err) {
+            res.status(RESPONSE_CODES.SERVER_ERROR);
+            res.json({ message: 'internal error' });
+            return;
+        }
+
+        const database = db.db('test');
+        database.collection('sessions').find().toArray()
+            .then(contacts => {
+                res.status(RESPONSE_CODES.OK);
+                res.json({ contacts });
+            })
+            .catch(er => {
+                res.status(RESPONSE_CODES.SERVER_ERROR);
+                res.json({ er });
+            });
+    });
+});
 
 app.listen(8000, () => console.log('Server running on http://localhost:8000'));

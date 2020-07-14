@@ -1,7 +1,7 @@
 import store from '../redux/store';
 import { setCurrentTargetUser } from '../redux/chat/actions';
 
-interface IAuthData {
+export interface IAuthData {
     isAuth: boolean;
     userName: string;
 }

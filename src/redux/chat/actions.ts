@@ -1,5 +1,6 @@
 import { actionTypes } from './reducers';
 import store from '../store';
+import authService from '../../services/authService';
 
 export interface IPayload {
     currentTargetUser?: string;
@@ -11,6 +12,7 @@ export interface IPayload {
     to?: string;
     message?: string;
     date?: string;
+    contacts?: Array<Record<string, string>>;
 }
 
 export interface IActionType {
@@ -49,5 +51,13 @@ export const setMessage = (from: string, to: string, message: string): IActionTy
     return {
         type: actionTypes.SET_MESSAGE,
         payload: { _id, from, to, message, date }
+    }
+};
+
+export const setContacts = (contactsWithUser: Array<Record<string, string>>): IActionType => {
+    const contacts = contactsWithUser.filter((contact) => contact.login !== authService.userName);
+    return {
+        type: actionTypes.SET_CONTACTS,
+        payload: { contacts }
     }
 };

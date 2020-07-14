@@ -33,11 +33,11 @@ class ChatService {
             }
         });
         this.socket.on('who', () => this.socket.emit('who', authService.userName));
-    }
+    };
 
     public matchUserName = (userName: string): void => {
         this.socket.emit('match', userName);
-    }
+    };
 
     public sendMessage = (message: string, from: string, to: string): void => {
         const date = new Date();
@@ -53,7 +53,17 @@ class ChatService {
             headers: { Host: 'localhost' },
         };
         return fetch(url, options);
-    }
+    };
+
+    public getContacts = (): Promise<Response> => {
+        const url = 'http://localhost:8000/api/contacts';
+        const options: RequestInit = {
+            method: 'GET',
+            mode: 'cors',
+            headers: { Host: 'localhost' },
+        };
+        return fetch(url, options);
+    };
 }
 
 export default new ChatService();
