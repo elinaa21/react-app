@@ -18,7 +18,7 @@ const Input: React.FC<IPropsInput> = ({input, meta, ...props}: IPropsInput) => {
     if (meta.touched && meta.error) hasError = true;
     return (
         <>
-            <input {...input} {...props} className={cn('input-data', '', {error: hasError})} />
+            <input {...input} {...props}  className={cn('input-data', '', {error: hasError})} />
             { 
                 hasError &&
                     <div className={classNames.errorContainer}>

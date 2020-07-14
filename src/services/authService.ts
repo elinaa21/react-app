@@ -1,4 +1,7 @@
-interface IAuthData {
+import store from '../redux/store';
+import { setCurrentTargetUser } from '../redux/chat/actions';
+
+export interface IAuthData {
     isAuth: boolean;
     userName: string;
 }
@@ -28,16 +31,29 @@ class AuthService {
         return fetch(url, options);
     }
 
-    public login(login: string, password: string): Promise<Response|void> {
+    public login(login: string, password: string): Promise<{ status: number }> {
         return this.sendRequest('/login', 'POST', { login, password })
-            .then((response) => {
+            .then(response => {
                 console.log('login = ' + response.status);
-                return response;
-            }); 
+                return response.json();
+            })
+            .then(res => {
+                this.userName = res.login || '';
+                this.isAuth = Boolean(this.userName);
+                return { status: this.isAuth ? 200 : 403 };
+            });
     }
 
-    public register(login: string, password: string): Promise<Response> {
-        return this.sendRequest('/register', 'POST', { login, password });
+    public register(login: string, password: string): Promise<{ status: number }> {
+        return this.sendRequest('/register', 'POST', { login, password })
+            .then(response => {
+                return response.json();
+            })
+            .then(res => {
+                this.userName = res.login || '';
+                this.isAuth = Boolean(this.userName);
+                return { status: this.isAuth ? 200 : 403 };
+            })
     }
 
     public getAuthData(): Promise<IAuthData> | IAuthData {
@@ -57,9 +73,9 @@ class AuthService {
 
     public logOut(): Promise<void> {
         return this.sendRequest('/login', 'DELETE')
-            .then((response) => {
+            .then(() => {
                 this.clearData();
-                console.log(response.status);
+                store.dispatch(setCurrentTargetUser(''));
             });
     }
 

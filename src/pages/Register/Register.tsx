@@ -6,10 +6,10 @@ import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 
 import { cn } from '../../modules/cn';
-import { IChatState } from '../../redux/auth/reducers';
+import { IAuthState } from '../../redux/auth/reducers';
 import { IActionType, registerThunk } from '../../redux/auth/actions';
 import { required, maxLength25, minLength4, alphaNumeric, matchPassword } from '../../modules/validator';
-import Input from '../Input/Input';
+import Input from '../../components/Input/Input';
 
 import './Register.scss';
 
@@ -26,6 +26,9 @@ const classNames = {
 
 interface IRegisterState {
     redirectToLogin: boolean;
+    loginInput: string;
+    passwordInput: string;
+    confirmPasswordInput: string;
 }
 
 interface IRegisterProps {
@@ -37,32 +40,40 @@ interface IRegisterProps {
 class Register extends React.Component<InjectedFormProps & IRegisterProps, IRegisterState> {
     constructor(props: InjectedFormProps & IRegisterProps) {
         super(props);
-        this.state = { redirectToLogin: false };
+        this.state = { redirectToLogin: false, loginInput: '', passwordInput: '', confirmPasswordInput: '' };
     }
 
-    private loginElement?: HTMLInputElement;
-    private passwordElement?: HTMLInputElement;
     private login?: string;
     private password?: string;
 
-    componentDidMount(): void {
-        this.loginElement = this.loginElement ? 
-            this.loginElement : 
-            (document.getElementById('register__username') as HTMLInputElement);
-        this.passwordElement = this.passwordElement ? 
-            this.passwordElement :
-            (document.getElementById('register__password') as HTMLInputElement);
-    }
+    private onLoginChange = (e: React.SyntheticEvent<EventTarget>): void => {
+        this.setState({ loginInput: (e.target as HTMLInputElement).value });
+    };
 
-    handleLogin = (): void => {
-        this.setState({ redirectToLogin: true });
-    }
+    private onPasswordChange = (e: React.SyntheticEvent<EventTarget>): void => {
+        this.setState({ passwordInput: (e.target as HTMLInputElement).value });
+    };
 
-    handleSignUp = (): void => {
+    private onConfirmPasswordChange = (e: React.SyntheticEvent<EventTarget>): void => {
+        this.setState({ confirmPasswordInput: (e.target as HTMLInputElement).value });
+    };
+
+    private handleSignUp = (): void => {
         if (this.props.invalid) return;
-        this.login = this.loginElement.value;
-        this.password = this.passwordElement.value;
+        this.login = this.state.loginInput;
+        this.password = this.state.passwordInput;
+        this.setState({ loginInput: '', passwordInput: '', confirmPasswordInput: '' });
         this.props.registerThunk(this.login, this.password);
+    }
+
+    private handleLogin = (): void => {
+        this.setState({ redirectToLogin: true, loginInput: '', passwordInput: '', confirmPasswordInput: '' });
+    }
+
+    private handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+        if(e.key === 'Enter'){
+          this.handleSignUp();
+        }
     }
 
     render(): JSX.Element {
@@ -78,6 +89,8 @@ class Register extends React.Component<InjectedFormProps & IRegisterProps, IRegi
                         </div>
                         <Field 
                             component={Input}
+                            onChange={this.onLoginChange}
+                            onKeyPress={this.handleKeyPress}
                             type='text' 
                             placeholder='Username'
                             id='register__username'
@@ -86,6 +99,8 @@ class Register extends React.Component<InjectedFormProps & IRegisterProps, IRegi
                         />
                         <Field 
                             component={Input}
+                            onChange={this.onPasswordChange}
+                            onKeyPress={this.handleKeyPress}
                             type='password' 
                             placeholder='Create password'
                             id='register__password'
@@ -94,6 +109,8 @@ class Register extends React.Component<InjectedFormProps & IRegisterProps, IRegi
                         />
                         <Field 
                             component={Input}
+                            onChange={this.onConfirmPasswordChange}
+                            onKeyPress={this.handleKeyPress}
                             type='password' 
                             placeholder='Confirm password' 
                             name='passwordConfirm' 
@@ -117,12 +134,12 @@ const RegisterReduxForm = reduxForm({
     form: 'register'
 })(Register)
 
-const mapStateToProps = (state: { auth: IChatState}): IRegisterProps => ({
+const mapStateToProps = (state: { auth: IAuthState}): IRegisterProps => ({
     isAuth: state.auth.isAuth,
     registerError: state.auth.registerError
 })
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<IChatState, {}, Action<IActionType>>): {} => ({ 
+const mapDispatchToProps = (dispatch: ThunkDispatch<IAuthState, {}, Action<IActionType>>): {} => ({ 
     registerThunk: (login: string, password: string): void => registerThunk(login, password, dispatch)
 });
 

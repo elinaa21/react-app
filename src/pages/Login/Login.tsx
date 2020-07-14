@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 
 import { cn } from '../../modules/cn';
 import { required, maxLength25, minLength4, alphaNumeric } from '../../modules/validator';
-import Input from '../Input/Input';
-import { IChatState } from '../../redux/auth/reducers';
+import Input from '../../components/Input/Input';
+import { IAuthState } from '../../redux/auth/reducers';
 import { IActionType, loginThunk } from '../../redux/auth/actions';
 
 import './Login.scss';
@@ -25,6 +25,8 @@ const classNames = {
 
 interface ILoginState {
     redirectToSignUp: boolean;
+    loginInput: string;
+    passwordInput: string;
 }
 
 interface ILoginProps {
@@ -36,32 +38,36 @@ interface ILoginProps {
 class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState> {
     constructor(props: InjectedFormProps & ILoginProps) {
         super(props);
-        this.state = { redirectToSignUp: false };
+        this.state = { redirectToSignUp: false, loginInput: '', passwordInput: '' };
     }
 
-    private loginElement?: HTMLInputElement;
-    private passwordElement?: HTMLInputElement;
+    private onLoginChange = (e: React.SyntheticEvent<EventTarget>): void => {
+        this.setState({ loginInput: (e.target as HTMLInputElement).value });
+    };
+
+    private onPasswordChange = (e: React.SyntheticEvent<EventTarget>): void => {
+        this.setState({ passwordInput: (e.target as HTMLInputElement).value });
+    };
+
     private login?: string;
     private password?: string;
 
     private handleLogin = (): void => {
         if (this.props.invalid) return;
-        this.login = this.loginElement.value;
-        this.password = this.passwordElement.value;
+        this.login = this.state.loginInput;
+        this.password = this.state.passwordInput;
+        this.setState({ loginInput: '', passwordInput: '' });
         this.props.loginThunk(this.login, this.password);
     }
 
-    componentDidMount(): void {
-        this.loginElement = this.loginElement ? 
-            this.loginElement : 
-            (document.getElementById('login__username') as HTMLInputElement);
-        this.passwordElement = this.passwordElement ? 
-            this.passwordElement :
-            (document.getElementById('login__password') as HTMLInputElement);
+    private handleSignUp = (): void => {
+        this.setState({ loginInput: '', passwordInput: '', redirectToSignUp: true });
     }
 
-    private handleSignUp = (): void => {
-        this.setState({ redirectToSignUp: true });
+    private handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (e.key === 'Enter') {
+          this.handleLogin();
+        }
     }
     
     render(): JSX.Element {
@@ -77,6 +83,8 @@ class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState
                         </div>
                         <Field 
                             component={Input}
+                            onChange={this.onLoginChange}
+                            onKeyPress={this.handleKeyPress}
                             validate={[required, maxLength25, minLength4, alphaNumeric]}
                             type='text'
                             name='username'
@@ -85,6 +93,8 @@ class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState
                         />
                         <Field
                             component={Input}
+                            onChange={this.onPasswordChange}
+                            onKeyPress={this.handleKeyPress}
                             validate={[required, maxLength25, minLength4]}
                             type='password'
                             name='password'
@@ -113,12 +123,12 @@ const LoginReduxForm = reduxForm({
     form: 'login'
 })(Login)
 
-const mapStateToProps = (state: {auth: IChatState}): ILoginProps => ({
+const mapStateToProps = (state: {auth: IAuthState}): ILoginProps => ({
     isAuth: state.auth.isAuth,
     loginError: state.auth.loginError,
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<IChatState, {}, Action<IActionType>>): {} => ({ 
+const mapDispatchToProps = (dispatch: ThunkDispatch<IAuthState, {}, Action<IActionType>>): {} => ({ 
     loginThunk: (login: string, password: string): void => loginThunk(login, password, dispatch)
 });
 
