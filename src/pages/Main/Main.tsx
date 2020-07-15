@@ -10,8 +10,6 @@ import Loader from '../../components/Loader/Loader';
 import { cn } from '../../modules/cn';
 import { IAuthState } from '../../redux/auth/reducers';
 import { IActionType, logOutThunk } from '../../redux/auth/actions';
-import store from '../../redux/store';
-import { deleteDialogs } from '../../redux/chat/actions';
 
 import './Main.scss';
 
@@ -34,7 +32,6 @@ interface IMainProps {
 class Main extends React.Component<IMainProps, {}> {
     handleExit = (): void => {
         this.props.logOut();
-        store.dispatch(deleteDialogs());
     }
 
     render(): JSX.Element {

@@ -1,6 +1,10 @@
+import { Dispatch } from 'react';
+
 import { actionTypes } from './reducers';
 import authService from '../../services/authService';
-import { Dispatch } from 'react';
+import chatService from '../../services/chatService';
+import store from '../store';
+import { setContacts } from '../chat/actions';
 
 interface IPayload {
     userName: string;
@@ -33,6 +37,11 @@ export const loginThunk = (login: string, password: string, dispatch: Dispatch<I
         .then((answer: { status: number }) => {
             if (answer.status === 200) {
                 dispatch(setUserData(login, true));
+                chatService.getContacts()
+                    .then(res => res.json())
+                    .then(res => {
+                        store.dispatch(setContacts(res.contacts));
+                    });
             } else {
                 dispatch(setLoginError());
             }

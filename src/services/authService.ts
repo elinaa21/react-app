@@ -1,5 +1,5 @@
 import store from '../redux/store';
-import { setCurrentTargetUser } from '../redux/chat/actions';
+import { setCurrentTargetUser, deleteDialogs } from '../redux/chat/actions';
 
 export interface IAuthData {
     isAuth: boolean;
@@ -76,6 +76,7 @@ class AuthService {
             .then(() => {
                 this.clearData();
                 store.dispatch(setCurrentTargetUser(''));
+                store.dispatch(deleteDialogs());
             });
     }
 
