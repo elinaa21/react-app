@@ -61,3 +61,5 @@ export const setContacts = (contactsWithUser: Array<Record<string, string>>): IA
         payload: { contacts }
     }
 };
+
+export const deleteDialogs = (): IActionType => ({ type: actionTypes.DELETE_DIALOGS });

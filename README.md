@@ -1,5 +1,5 @@
  # Messenger
-<img src="https://sun1-47.userapi.com/YpYEuYAgEw1XqkjtULWTezu4Hqyqq7TUPockWA/ezfC1H7ddwE.jpg">
+![alt-текст](./src/img/chat.jpg)
 
 
 ## Technology stack

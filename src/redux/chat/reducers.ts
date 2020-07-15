@@ -8,6 +8,7 @@ export const actionTypes = {
     SET_DIALOG: 'SET_DIALOG',
     SET_MESSAGE: 'SET_MESSAGE',
     SET_CONTACTS: 'SET_CONTACTS',
+    DELETE_DIALOGS: 'DELETE_DIALOGS',
 };
 
 export interface IChatState {
@@ -71,6 +72,12 @@ export const chatReducer = (state = initialState, action: IActionType): IChatSta
             return {
                 ...state,
                 contacts: action.payload.contacts
+            }
+
+        case actionTypes.DELETE_DIALOGS:
+            return {
+                ...state,
+                dialogs: {}
             }
 
         default:
