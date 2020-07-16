@@ -16,7 +16,6 @@ const classNames = {
     contactImg: cn('contact', 'img'),
     contactInfo: cn('contact-info'),
     contactStatus: cn('contact-status'),
-    contactStatusImg: cn('contact-status', 'img'),
     unreadMessage: cn('unread-message'),
 }
 
@@ -37,6 +36,7 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
     private setActiveUser = (): void => {
         const name = this.props.name;
         this.props.setCurrentTargetUser(name);
+
         if (this.props.unreadMessages.includes(name)) {
             this.props.deleteUnreadMessage(name);
         }
@@ -58,12 +58,12 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
                 <div className={classNames.contactInfo}>
                     <span>{ this.props.name }</span>
                     <div className={classNames.contactStatus} >
-                        <div className={classNames.contactStatusImg} />
+                        <div className={cn('contact-status', 'img', {status: this.props.status})} />
                         <span>{ this.props.status }</span>
                     </div>
                 </div>
-                { this.props.unreadMessages.includes(this.props.name) ? 
-                    <div className={classNames.unreadMessage} /> : <></> }
+                { this.props.unreadMessages.includes(this.props.name) && 
+                    <div className={classNames.unreadMessage} /> }
             </div>
         );
     }

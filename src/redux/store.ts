@@ -19,7 +19,7 @@ const store = createStore(reducers);
 
 const handleAuth = (answer: IAuthData): void => {
     if (answer.isAuth) {
-        chatService.matchUserName(answer.userName);
+        chatService.connect();
         store.dispatch(setUserData(answer.userName, true));
         chatService.getContacts()
             .then(res => res.json())

@@ -13,6 +13,7 @@ export interface IPayload {
     message?: string;
     date?: string;
     contacts?: Array<Record<string, string>>;
+    online?: Array<string>;
 }
 
 export interface IActionType {
@@ -63,3 +64,11 @@ export const setContacts = (contactsWithUser: Array<Record<string, string>>): IA
 };
 
 export const deleteDialogs = (): IActionType => ({ type: actionTypes.DELETE_DIALOGS });
+
+export const setOnlineStatus = (users: Array<string>): IActionType => {
+    const online = users.filter((user) => user !== authService.userName);
+    return {
+        type: actionTypes.SET_ONLINE_STATUS,
+        payload: { online }
+    }
+}

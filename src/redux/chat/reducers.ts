@@ -9,6 +9,7 @@ export const actionTypes = {
     SET_MESSAGE: 'SET_MESSAGE',
     SET_CONTACTS: 'SET_CONTACTS',
     DELETE_DIALOGS: 'DELETE_DIALOGS',
+    SET_ONLINE_STATUS: 'SET_ONLINE_STATUS',
 };
 
 export interface IChatState {
@@ -16,13 +17,15 @@ export interface IChatState {
     unreadMessages: Array<string>;
     dialogs: Record<string,Array<IPayload>>;
     contacts: Array<Record<string, string>>;
+    online: Array<string>;
 }
 
 const initialState: IChatState = {
     currentTargetUser: '',
     unreadMessages: [],
     dialogs: {},
-    contacts: []
+    contacts: [],
+    online: [],
 };
 
 export const chatReducer = (state = initialState, action: IActionType): IChatState => {
@@ -42,7 +45,7 @@ export const chatReducer = (state = initialState, action: IActionType): IChatSta
         case actionTypes.DELETE_UNREAD_MESSAGE:
             return {
                 ...state,
-                unreadMessages: action.payload.arrFrom
+                unreadMessages: [...action.payload.arrFrom]
             }
 
         case actionTypes.SET_DIALOG:
@@ -78,6 +81,12 @@ export const chatReducer = (state = initialState, action: IActionType): IChatSta
             return {
                 ...state,
                 dialogs: {}
+            }
+
+        case actionTypes.SET_ONLINE_STATUS:
+            return {
+                ...state,
+                online: action.payload.online
             }
 
         default:

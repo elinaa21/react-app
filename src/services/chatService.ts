@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import authService from '../services/authService'
 import store from '../redux/store';
-import { setUnreadMessage, setMessage, setDialog } from '../redux/chat/actions';
+import { setUnreadMessage, setMessage, setDialog, setOnlineStatus } from '../redux/chat/actions';
 import { dn } from '../modules/dn';
 
 interface IMessagePayload {
@@ -11,9 +11,11 @@ interface IMessagePayload {
 }
 
 class ChatService {
-    private socket = io.connect('http://localhost:777');
+    private socket: SocketIOClient.Socket;
 
-    constructor() {
+    public connect = (): void => {
+        this.socket = io.connect('http://localhost:777');
+
         this.socket.on('chatMessage', (payload: IMessagePayload) => {
             if (payload.from !== store.getState().chat.currentTargetUser) {
                 if (!store.getState().chat.unreadMessages.includes(payload.from)) {
@@ -32,11 +34,18 @@ class ChatService {
                 store.dispatch(setMessage(payload.from, payload.to, payload.message));
             }
         });
-        this.socket.on('who', () => this.socket.emit('who', authService.userName));
+
+        this.socket.on('who', () => {
+            this.socket.emit('who', authService.userName);
+        });
+
+        this.socket.on('online', (userNameToid: Record<string, string>) => {
+            store.dispatch(setOnlineStatus(Object.keys(userNameToid)));
+        });
     };
 
-    public matchUserName = (userName: string): void => {
-        this.socket.emit('match', userName);
+    public setOffline = (): void => {
+        this.socket.disconnect();
     };
 
     public sendMessage = (message: string, from: string, to: string): void => {

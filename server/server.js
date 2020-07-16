@@ -11,31 +11,14 @@ const io = require('socket.io').listen(ws);
 ws.listen(777);
 
 const userNameToId = {};
-const anonyms = {};
-const pendingMessages = {};
 
 io.sockets.on('connection', function (socket) {
-    console.log('connected');
-
     const { id } = socket.client;
     console.log(`User connected: ${id}`);
-    anonyms[id] = true;
+    io.to(id).emit('who');
 
     socket.on('chatMessage', payload => {
         const targetId = userNameToId[payload.to];
-        if (!targetId) {
-            const queue = pendingMessages[payload.to];
-            if (!queue) {
-                pendingMessages[payload.to] = [ payload ]
-            } else {
-                pendingMessages[payload.to].push(payload);
-            }
-
-            Object.keys(anonyms).forEach((id) => {
-                io.to(id).emit('who');
-
-            });
-        }
         
         mongoClient.connect(mongoURL, (err, db) => {
             if (err) return;
@@ -68,32 +51,27 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('who', userName => {
-        delete anonyms[id];
-        userNameToId[userName] = id;
-        const queue = pendingMessages[userName];
-        if (queue) {
-            queue.forEach((payload) => {
-                io.to(id).emit('chatMessage', payload);
-            });
-        }
-    });
-
-    socket.on('match', userName => {
-        delete anonyms[id];
-        if (!userNameToId[userName]) {
-            userNameToId[userName] = [id];
-            return;
-        }
-        userNameToId[userName].push(id);
+        if (userNameToId[userName]) {
+            userNameToId[userName].push(id);
+        } else {
+            userNameToId[userName] = [ id ];
+        } 
+        Object.keys(userNameToId).forEach((userName) => {
+            io.to(userNameToId[userName]).emit('online', userNameToId);
+        });
     });
 
     socket.on('disconnect', () => {
-        delete anonyms[id];
         Object.keys(userNameToId).forEach((userName) => {
-            if (!userNameToId[userName]) return;
             userNameToId[userName] = userNameToId[userName].filter((_id) => _id !== id);
+            if (!userNameToId[userName].length) {
+                delete userNameToId[userName];
+            }
         });
-        console.log('disconnected');
+        Object.keys(userNameToId).forEach((userName) => {
+            io.to(userNameToId[userName]).emit('online', userNameToId);
+        });
+        console.log(`User disconnected: ${id}`);
     })
 });
 

@@ -1,5 +1,6 @@
 import store from '../redux/store';
 import { setCurrentTargetUser, deleteDialogs } from '../redux/chat/actions';
+import chatService from './chatService';
 
 export interface IAuthData {
     isAuth: boolean;
@@ -14,6 +15,23 @@ class AuthService {
 
     constructor() {
         this.checkAuth();
+    }
+
+    private handleAuthResponse = (promise: Promise<Response>): Promise<{ status: number }>  => {
+        return promise
+            .then(response => {
+                return response.json();
+            })
+            .then(res => {
+                this.userName = res.login || '';
+                this.isAuth = Boolean(this.userName);
+
+                if (this.isAuth) {
+                    chatService.connect();
+                }
+
+                return { status: this.isAuth ? 200 : 403 };
+            });
     }
 
     private sendRequest(address: string, method: string, body?: object): Promise<Response> {
@@ -32,28 +50,11 @@ class AuthService {
     }
 
     public login(login: string, password: string): Promise<{ status: number }> {
-        return this.sendRequest('/login', 'POST', { login, password })
-            .then(response => {
-                console.log('login = ' + response.status);
-                return response.json();
-            })
-            .then(res => {
-                this.userName = res.login || '';
-                this.isAuth = Boolean(this.userName);
-                return { status: this.isAuth ? 200 : 403 };
-            });
+        return this.handleAuthResponse(this.sendRequest('/login', 'POST', { login, password }));
     }
 
     public register(login: string, password: string): Promise<{ status: number }> {
-        return this.sendRequest('/register', 'POST', { login, password })
-            .then(response => {
-                return response.json();
-            })
-            .then(res => {
-                this.userName = res.login || '';
-                this.isAuth = Boolean(this.userName);
-                return { status: this.isAuth ? 200 : 403 };
-            })
+        return this.handleAuthResponse(this.sendRequest('/register', 'POST', { login, password }));
     }
 
     public getAuthData(): Promise<IAuthData> | IAuthData {
@@ -77,6 +78,7 @@ class AuthService {
                 this.clearData();
                 store.dispatch(setCurrentTargetUser(''));
                 store.dispatch(deleteDialogs());
+                chatService.setOffline();
             });
     }
 
@@ -89,7 +91,6 @@ class AuthService {
         if (!this.isAuth || !this.userName) {
             this.checkAuthFetch = this.sendRequest('/check', 'GET')
             .then(response => {
-                console.log(response.status);
                 return response.json();
             }).then(response => {
                 if (response.message) {
