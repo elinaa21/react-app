@@ -11,6 +11,10 @@
         background-color: rgba(255, 255, 255, 0.274);
     }
 
+    &_active {
+        background-color: rgba(255, 255, 255, 0.274);
+    }
+
     &__img {
         background: url(../../img/contact-icon.png);
         background: {
@@ -58,7 +62,6 @@
         }
     }
 }
-
 
 .unread-message {
     width: 10%;

@@ -15,13 +15,20 @@ const classNames = {
 interface IContactsFieldProps {
     contacts: Array<Record<string, string>>;
     online: Array<string>;
+    unreadMessages: Array<string>;
 }
 
 
 const ContactsField: React.FC<IContactsFieldProps> = (props: IContactsFieldProps) => {
-    const allContacts = props.contacts.map(contact => 
-        <Contact name={contact.login} key={contact._id} status={props.online.includes(contact.login) ? 'online' : 'offline'} />
-    );
+    const allContacts = props.contacts.map(contact => {
+        const unreadMessages = props.unreadMessages.includes(contact.login);
+        return ( <Contact 
+            key={contact._id} 
+            name={contact.login} 
+            status={props.online.includes(contact.login) ? 'online' : 'offline'}
+            unreadMessages={unreadMessages}
+        /> )
+    });
 
     return (
         <div className={classNames.containerContacts}>
@@ -34,7 +41,8 @@ const ContactsField: React.FC<IContactsFieldProps> = (props: IContactsFieldProps
 
 const mapStateToProps = (state: {chat: IChatState}): IContactsFieldProps => ({
     contacts: state.chat.contacts,
-    online: state.chat.online
+    online: state.chat.online,
+    unreadMessages: state.chat.unreadMessages,
 });
 
 export default connect(mapStateToProps)(ContactsField);

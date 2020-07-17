@@ -22,22 +22,25 @@ const classNames = {
 interface IContactProps {
     name: string;
     status: string;
+    unreadMessages: boolean;
 }
 
 interface IContactReduxProps {
-    unreadMessages: Array<string>;
     dialogs: Record<string,Array<IPayload>>;
+    currentTurgetUser: string;
     setCurrentTargetUser?: (currentTargetUser: string) => IActionType;
     deleteUnreadMessage?: (from: string) => IActionType;
     setDialog?: (userName: string, messages: Array<Record<string, string>>) => IActionType;
 }
 
 class Contact extends React.Component<IContactProps & IContactReduxProps> {
+    private activeUser: boolean;
+
     private setActiveUser = (): void => {
         const name = this.props.name;
         this.props.setCurrentTargetUser(name);
 
-        if (this.props.unreadMessages.includes(name)) {
+        if (this.props.unreadMessages) {
             this.props.deleteUnreadMessage(name);
         }
 
@@ -52,8 +55,9 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
     }
 
     render(): JSX.Element {
+        this.activeUser = this.props.currentTurgetUser === this.props.name ? true : false;
         return (
-            <div className={classNames.contact} onClick={this.setActiveUser}>
+            <div className={cn('contact', '', {active: this.activeUser})} onClick={this.setActiveUser}>
                 <div className = {classNames.contactImg}/>
                 <div className={classNames.contactInfo}>
                     <span>{ this.props.name }</span>
@@ -62,7 +66,7 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
                         <span>{ this.props.status }</span>
                     </div>
                 </div>
-                { this.props.unreadMessages.includes(this.props.name) && 
+                { this.props.unreadMessages && 
                     <div className={classNames.unreadMessage} /> }
             </div>
         );
@@ -70,8 +74,8 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
 }
 
 const mapStateToProps = (state: {chat: IChatState}): IContactReduxProps => ({
-    unreadMessages: state.chat.unreadMessages,
-    dialogs: state.chat.dialogs
+    dialogs: state.chat.dialogs,
+    currentTurgetUser: state.chat.currentTargetUser
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<IActionType>): {} => ({ 
