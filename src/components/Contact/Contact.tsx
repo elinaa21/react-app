@@ -55,7 +55,7 @@ class Contact extends React.Component<IContactProps & IContactReduxProps> {
     }
 
     render(): JSX.Element {
-        this.activeUser = this.props.currentTurgetUser === this.props.name ? true : false;
+        this.activeUser = this.props.currentTurgetUser === this.props.name;
         return (
             <div className={cn('contact', '', {active: this.activeUser})} onClick={this.setActiveUser}>
                 <div className = {classNames.contactImg}/>
