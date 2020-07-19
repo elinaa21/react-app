@@ -106,7 +106,7 @@ class Login extends React.Component<InjectedFormProps & ILoginProps, ILoginState
                         </button>
                         <div className={classNames.noAccount}>
                             <div className={classNames.lineImg} />
-                            <span>Have not account?</span>
+                            <span>Do not have an account?</span>
                             <div className={classNames.lineImg} />
                         </div>
                         <button className={classNames.buttonSignUp} onClick={this.handleSignUp} >
