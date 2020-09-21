@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubjectToBeTested renders correctly 1`] = `
+<div
+  className="search"
+>
+  <input
+    className="search__input"
+    placeholder="search"
+    type="text"
+  />
+  <div
+    className="search__img"
+  />
+</div>
+`;

@@ -43,6 +43,11 @@ module.exports = {
         use: 'ts-loader',
         exclude: '/node_modules/'
       },
+      { 
+        test: /\.tsx?$/, 
+        exclude: /\.test.tsx?$/, 
+        include: /ClientApp/, 
+        use: 'awesome-typescript-loader?silent=true' },
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
