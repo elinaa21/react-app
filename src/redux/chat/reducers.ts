@@ -10,6 +10,7 @@ export const actionTypes = {
     SET_CONTACTS: 'SET_CONTACTS',
     DELETE_DIALOGS: 'DELETE_DIALOGS',
     SET_ONLINE_STATUS: 'SET_ONLINE_STATUS',
+    SET_ALL_CONTACTS: 'SET_ALL_CONTACTS',
 };
 
 export interface IChatState {
@@ -18,6 +19,7 @@ export interface IChatState {
     dialogs: Record<string,Array<IPayload>>;
     contacts: Array<Record<string, string>>;
     online: Array<string>;
+    allContacts: Array<Record<string, string>>;
 }
 
 const initialState: IChatState = {
@@ -26,6 +28,7 @@ const initialState: IChatState = {
     dialogs: {},
     contacts: [],
     online: [],
+    allContacts: [],
 };
 
 export const chatReducer = (state = initialState, action: IActionType): IChatState => {
@@ -75,6 +78,12 @@ export const chatReducer = (state = initialState, action: IActionType): IChatSta
             return {
                 ...state,
                 contacts: action.payload.contacts
+            }
+
+        case actionTypes.SET_ALL_CONTACTS:
+            return {
+                ...state,
+                allContacts: action.payload.allContacts
             }
 
         case actionTypes.DELETE_DIALOGS:

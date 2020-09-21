@@ -6,7 +6,7 @@ import { setUserData, setLoading } from './auth/actions';
 import { authReducer } from './auth/reducers';
 import { chatReducer } from './chat/reducers';
 import thunk from 'redux-thunk';
-import { setContacts } from './chat/actions';
+import { setAllContacts, setContacts } from './chat/actions';
 
 const reducers = combineReducers({
     form: formReducer,
@@ -25,6 +25,7 @@ const handleAuth = (answer: IAuthData): void => {
             .then(res => res.json())
             .then(res => {
                 store.dispatch(setContacts(res.contacts));
+                store.dispatch(setAllContacts(res.contacts));
             });
     } else {
         store.dispatch(setUserData('', false));

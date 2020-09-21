@@ -14,6 +14,7 @@ export interface IPayload {
     date?: string;
     contacts?: Array<Record<string, string>>;
     online?: Array<string>;
+    allContacts?: Array<Record<string, string>>;
 }
 
 export interface IActionType {
@@ -60,6 +61,14 @@ export const setContacts = (contactsWithUser: Array<Record<string, string>>): IA
     return {
         type: actionTypes.SET_CONTACTS,
         payload: { contacts }
+    }
+};
+
+export const setAllContacts = (contactsWithUser: Array<Record<string, string>>): IActionType => {
+    const allContacts = contactsWithUser.filter((contact) => contact.login !== authService.userName);
+    return {
+        type: actionTypes.SET_ALL_CONTACTS,
+        payload: { allContacts }
     }
 };
 
