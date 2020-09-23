@@ -12,6 +12,7 @@
 - Express.js
 - MongoDB
 - Socket.IO
+- RxJS
 
 ## Oportunities
 - Sending and receiving messages
@@ -19,10 +20,10 @@
 - Registration
 - Viewing online/offline statuses
 - Viewing unread messages
+- Сontact search
 
 ## Future improvements
 - Adding to favorites (button star)
-- Сontact search
 
 ## Launch
 1. install and launch mongoDB
