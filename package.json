@@ -90,6 +90,6 @@
     "rxjs": "^6.6.3",
     "sass": "^1.26.7",
     "socket.io": "^2.3.0",
-    "socket.io-client": "^2.0.3"
+    "socket.io-client": "^2.5.0"
   }
 }
